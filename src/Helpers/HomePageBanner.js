@@ -1,32 +1,32 @@
-import { GroupCloth, Shoes, Electronics, FemaleCloth, MaleCloth, Books, Jewelry } from '../Assets/Images/Image';
+import { Iphone, Shoes, Sound, FemaleCloth, Battery, Battery_2, SmartWatch } from '../Assets/Images/Image';
 const data = [
     {
-        img: GroupCloth,
-        name: "Cloths"
+        img: Iphone,
+        name: "Iphone"
     },
     {
         img: Shoes,
-        name: "Shoe"
+        name: "Macbook"
     },
     {
         img: FemaleCloth,
         name: "Cloths"
     },
     {
-        img: Electronics,
-        name: "Electronics"
+        img: Sound,
+        name: "Loa"
     },
     {
-        img: MaleCloth,
-        name: "Cloths"
+        img: Battery,
+        name: "Sạc dự phòng"
     },
     {
-        img: Books,
-        name: "Book"
+        img: Battery_2,
+        name: "Sạc"
     },
     {
-        img: Jewelry,
-        name: "Jewelry"
+        img: SmartWatch,
+        name: "Đồng hồ"
     },
 ]
 export default data

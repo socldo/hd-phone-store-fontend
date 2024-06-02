@@ -3,6 +3,8 @@ import styles from './Category.module.css'
 import { Link } from 'react-router-dom'
 
 const CategoryCard = ({ data }) => {
+    // const imagePath = require(`../Assets/Images/${data.img}`).default;
+
     return (
         <Link to={`product/type/${data.name.toLowerCase()}`}>
             <div className={styles.mainCard}>

@@ -39,10 +39,10 @@ const Register = () => {
       else if (credentials.firstName.length < 1 || credentials.lastName.length < 1) {
         toast.error("Please enter valid name", { autoClose: 500, theme: 'colored' })
       }
-      else if (emailRegex.test(credentials.email)===false) {
+      else if (emailRegex.test(credentials.email) === false) {
         toast.error("Please enter valid email", { autoClose: 500, theme: 'colored' })
       }
-      else if (phoneRegex.test(credentials.phoneNumber)===false) {
+      else if (phoneRegex.test(credentials.phoneNumber) === false) {
         toast.error("Please enter a valid phone number", { autoClose: 500, theme: 'colored' })
         console.log(1);
       }
@@ -58,34 +58,35 @@ const Register = () => {
           password: credentials.password,
           key: credentials.key
         });
-        const sendAuth = await axios.post(
-          process.env.REACT_APP_ADMIN_REGISTER,
-          {
-            firstName: credentials.firstName,
-            lastName: credentials.lastName,
-            email: credentials.email,
-            phoneNumber: credentials.phoneNumber,
-            password: credentials.password,
-            key: credentials.key
-          },
-          {
-            headers: {
-              origin: 'http://localhost:3000/' 
+        try {
+          const sendAuth = await axios.post(
+            process.env.REACT_APP_ADMIN_REGISTER,
+            {
+              firstName: credentials.firstName,
+              lastName: credentials.lastName,
+              email: credentials.email,
+              phoneNumber: credentials.phoneNumber,
+              password: credentials.password,
+              key: credentials.key
             }
+          );
+          console.log(sendAuth.data);
+          const receive = await sendAuth.data
+          if (receive.success === true) {
+            toast.success("Đăng kí thành công", { autoClose: 500, theme: 'colored' })
+            localStorage.setItem('Authorization', receive.authToken)
+            navigate('/')
+            console.log(receive);
           }
-        );
-        console.log(sendAuth.data);
-        const receive = await sendAuth.data
-        if (receive.success === true) {
-          toast.success("Registered Successfully", { autoClose: 500, theme: 'colored' })
-          localStorage.setItem('Authorization', receive.authToken)
-          navigate('/')
-          console.log(receive);
+          else {
+            toast.error("Lỗi rồi", { autoClose: 500, theme: 'colored' })
+            navigate('/')
+          }
+        } catch (error) {
+          toast.error("Số điên thoại hoặc email đã được đăng kí!", { autoClose: 500, theme: 'colored' })
         }
-        else {
-          toast.error("Something went wrong, Please try again", { autoClose: 500, theme: 'colored' })
-          navigate('/')
-        }
+
+
       }
     } catch (error) {
       toast.error(error.response.data.error[0].msg, { autoClose: 500, theme: 'colored' })
