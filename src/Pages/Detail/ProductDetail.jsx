@@ -206,7 +206,7 @@ const ProductDetail = () => {
                             <div style={{ display: 'flex', gap: 20 }}>
                                 <Typography variant="h6" color="red"><s> ₹{product.price > 1000 ? product.price + 1000 : product.price + 300}</s> </Typography>
                                 <Typography variant="h6" color="primary">
-                                    ₹{product.price}
+                                    {product.price} đ
                                 </Typography>
                             </div>
                             <Box

@@ -16,8 +16,8 @@ export default function ProductCard({ prod }) {
                 </CardContent>
             </CardActionArea>
             <CardActions style={{ display: "flex", justifyContent: "space-between", width: '100%' }}>
-                <Typography variant="h6" color="primary">
-                    ₹{prod.price}
+                <Typography variant="h6" color="#be1e2d">
+                    {prod.price} đ
                 </Typography>
                 <Typography >
                     <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />

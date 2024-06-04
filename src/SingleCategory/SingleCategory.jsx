@@ -27,7 +27,10 @@ const SingleCategory = () => {
     const getCategoryProduct = async () => {
         try {
             setIsLoading(true)
+            console.log({ userType: cat });
+            console.log(process.env.REACT_APP_PRODUCT_TYPE);
             const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat })
+            console.log(data);
             setIsLoading(false)
             setProductData(data)
 
@@ -38,16 +41,16 @@ const SingleCategory = () => {
 
     const productFilter = []
 
-    if (cat === 'book') {
+    if (cat === 'Điện thoại') {
         productFilter.push('All', 'Scifi', 'Business', 'Mystery', 'Cookbooks', 'Accessories', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
     }
-    else if (cat === 'cloths') {
+    else if (cat === 'Laptop') {
         productFilter.push('All', 'Men', 'Women', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
     }
-    else if (cat === 'shoe') {
+    else if (cat === 'Tai nghe') {
         productFilter.push('All', 'Running', 'Football', 'Formal', 'Casual', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
     }
-    else if (cat === 'electronics') {
+    else if (cat === 'Loa') {
         productFilter.push('All', 'Monitor', 'SSD', 'HDD', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
 
     }
@@ -68,7 +71,7 @@ const SingleCategory = () => {
     const getData = async () => {
         setIsLoading(true)
         const filter = filterOption.toLowerCase()
-        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE_CATEGORY_}`, { userType: cat, userCategory: filter })
+        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE_CATEGORY}`, { userType: cat, userCategory: filter })
         setProductData(data)
         setIsLoading(false)
     }

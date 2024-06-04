@@ -1,11 +1,11 @@
 export let payment = 'https://res.cloudinary.com/dxguqzge7/image/upload/v1682838910/payment_mkel3w.jpg';
 export let profile = 'https://res.cloudinary.com/dxguqzge7/image/upload/v1682838912/vecteezy_user-avatar-line-style__x94mjc.jpg';
 export let Battery = 'https://cdn-v2.didongviet.vn/files/products/2023/4/25/1/1684983917855_pin_sac_du_phong_innostyle_powermax_pd_20w_20000mah_ic2a_ip20kp_didongviet.jpg';
-export let FemaleCloth = 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985';
+export let HeadPhone = 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985';
 export let Iphone = 'https://cdn.trangthienlong.com.vn/wp-content/uploads/2023/09/iphone-15-128gb-256gb-512gb-trang-thien-long-mobile-512x512.jpg';
 export let Sound = 'https://www.maccenter.vn/Audio/JBL-BoomBox3-Black-A.jpg';
 export let SmartWatch = 'https://product.hstatic.net/1000381291/product/oknwelbw_0a2f1d033e6e4905a1e48ccd6be743c3.jpg';
-export let Shoes = 'https://help.apple.com/assets/656F5187C78760B7A301D631/656F518AB828D2E11F0D8D96/vi_VN/accdb09369ceff709d4fc42f5c8e1ddf.png';
+export let Macbook = 'https://help.apple.com/assets/656F5187C78760B7A301D631/656F518AB828D2E11F0D8D96/vi_VN/accdb09369ceff709d4fc42f5c8e1ddf.png';
 export let Battery_2 = 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MU7V2?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1542406861289';
 export let EmptyCart = 'https://res.cloudinary.com/dxguqzge7/image/upload/v1682838909/Cart_bk4xgl.jpg';
 export let customerReview = "https://res.cloudinary.com/dxguqzge7/image/upload/v1682838911/Review_bm6chw.jpg";

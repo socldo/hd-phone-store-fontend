@@ -58,6 +58,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
     const [paymentData, setPaymentData] = useState([]);
 
     useEffect(() => {
+        console.log('process.env.REACT_APP_ADMIN_GET_CHART_DATA', process.env.REACT_APP_ADMIN_GET_CHART_DATA);
         getProductInfo();
     }, [])
     const getProductInfo = async () => {

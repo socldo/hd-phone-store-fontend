@@ -167,7 +167,7 @@ const ProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                ₹{prod.price}
+                                                {prod.price} đ
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">

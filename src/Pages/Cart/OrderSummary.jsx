@@ -24,7 +24,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             SubTotal
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
-                            ₹{total - shippingCoast}
+                            {total - shippingCoast} đ
                         </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }} >
@@ -32,7 +32,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             Shipping
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
-                            ₹{shippingCoast}
+                            {shippingCoast} đ
                         </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
@@ -40,7 +40,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             Total
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
-                            ₹{total}
+                            {total} đ
                         </Typography>
                     </Box>
                 </Grid>

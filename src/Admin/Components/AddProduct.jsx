@@ -40,15 +40,26 @@ const AddProduct = ({ getProductInfo, data }) => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault()
+        console.log({ name: productInfo.name,
+            brand: productInfo.brand,
+            price: productInfo.price,
+            category: productInfo.category,
+            image: productInfo.image,
+            rating: productInfo.rating,
+            type: productInfo.type,
+            author: productInfo.author,
+            description: productInfo.description,});
         try {
             if (!productInfo.name && !productInfo.image && !productInfo.price && !productInfo.rating && !productInfo.category && !productInfo.type && !productInfo.description) {
-                toast.error("Please Fill the all Fields", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
             }
             else if (productInfo.rating < 0 || productInfo.rating > 5) {
-                toast.error("Please add valid rating", { autoClose: 500, theme: 'colored' })
+                toast.error("Rating không hợp lệ", { autoClose: 500, theme: 'colored' })
 
             }
             else {
+
+            console.log(authToken);
                 const { data } = await axios.post(`${process.env.REACT_APP_ADMIN_ADD_PRODUCT}`,
                     {
                         name: productInfo.name,
@@ -68,7 +79,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                 setOpen(false);
                 if (data === true) {
                     getProductInfo()
-                    toast.success("Product added successfully", { autoClose: 500, theme: 'colored' })
+                    toast.success(`Thêm thành công sản phẩm ${productInfo.name}`, { autoClose: 500, theme: 'colored' })
                     setProductInfo({
                         name: "",
                         image: "",
@@ -82,7 +93,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                     });
                 }
                 else {
-                    toast.error("Some thing went wrong", { autoClose: 500, theme: 'colored' })
+                    toast.error("Sản phẩm đã tồn tại!", { autoClose: 500, theme: 'colored' })
                 }
             }
         } catch (error) {
@@ -92,23 +103,32 @@ const AddProduct = ({ getProductInfo, data }) => {
     }
     const productFilter = []
 
-    if (productInfo.type === 'book') {
-        productFilter.push('scifi', 'business', 'mystery', 'cookbooks', 'accessories')
+    if (productInfo.type === 'Điện thoại') {
+        productFilter.push('Iphone', 'Samsung', 'Xiaomi', 'Huawei', 'Vinsmart')
     }
-    else if (productInfo.type === 'cloths') {
-        productFilter.push('men', 'women')
+    else if (productInfo.type === 'Laptop') {
+        productFilter.push('Macbook', 'Laptop gaming', 'Laptop văn phòng')
     }
-    else if (productInfo.type === 'shoe') {
-        productFilter.push('running', 'football', 'formal', 'casual')
+    else if (productInfo.type === 'Tai nghe') {
+        productFilter.push('Tai nghe không dây', 'Tai nghe dây')
     }
-    else if (productInfo.type === 'electronics') {
-        productFilter.push('monitor', 'ssd', 'hdd')
+    else if (productInfo.type === 'Loa') {
+        productFilter.push('JBL', 'Marshal', 'Bose')
+    }
+    else if (productInfo.type === 'Sạc') {
+        productFilter.push('Sạc không dây', 'Sạc dây')
+    }
+    else if (productInfo.type === 'Sạc dự phòng') {
+        productFilter.push('Sạc nhanh', 'Dung lượng cao')
+    }
+    else if (productInfo.type === 'Đồng hồ') {
+        productFilter.push('Đồng hồ cơ', 'Đồng hồ thông minh')
     }
     else {
         productFilter.push('all')
 
     }
-    const typeDropdown = ['book', 'cloths', 'shoe', 'electronics'];
+    const typeDropdown = ['Điện thoại', 'Laptop', 'Tai nghe', 'Loa', 'Sạc', 'Sạc dự phòng', 'Đồng hồ'];
     const shoeBrand = ['adidas', 'hushpuppies', 'nike', 'reebok', 'vans']
 
 

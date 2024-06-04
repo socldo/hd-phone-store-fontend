@@ -29,6 +29,14 @@ const AdminRegister = () => {
     }
   }, [])
   const handleSubmit = async (e) => {
+    console.log({
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
+      email: credentials.email,
+      phoneNumber: credentials.phoneNumber,
+      password: credentials.password,
+      key: credentials.key
+    });
     e.preventDefault()
     let phoneRegex = /^(?:\+84|0)(3|5|7|8|9)(\d{8})$/;
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -48,6 +56,7 @@ const AdminRegister = () => {
       else if (credentials.password.length < 5) {
         toast.error("Please enter password with more than 5 characters", { autoClose: 500, theme: 'colored' })
       }
+   
       else if (credentials.email && credentials.firstName && credentials.lastName && credentials.phoneNumber && credentials.password) {
         const sendAuth = await axios.post(
           process.env.REACT_APP_ADMIN_REGISTER,
@@ -58,26 +67,21 @@ const AdminRegister = () => {
             phoneNumber: credentials.phoneNumber,
             password: credentials.password,
             key: credentials.key
-          },
-          {
-            headers: {
-              Origin: 'http://localhost:3000/' 
-            }
           }
         );
-          console.log(sendAuth.data);
         const receive = await sendAuth.data
         if (receive.success === true) {
           toast.success("Registered Successfully", { autoClose: 500, theme: 'colored' })
           localStorage.setItem('Authorization', receive.authToken)
+          console.log('token',receive.authToken);
           navigate('/admin/home')
         }
         else {
-          toast.error("Invalid Credentials", { autoClose: 500, theme: 'colored' })
+          toast.error("Gmail và số điện thoại đã tồn tại", { autoClose: 500, theme: 'colored' })
         }
       }
     } catch (error) {
-      toast.error("Invalid Credentials", { autoClose: 500, theme: 'colored' })
+      toast.error("Gmail và số điện thoại đã tồn tại", { autoClose: 500, theme: 'colored' })
     }
 
   }

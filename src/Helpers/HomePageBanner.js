@@ -1,16 +1,16 @@
-import { Iphone, Shoes, Sound, FemaleCloth, Battery, Battery_2, SmartWatch } from '../Assets/Images/Image';
+import { Iphone, Macbook, Sound, HeadPhone, Battery, Battery_2, SmartWatch } from '../Assets/Images/Image';
 const data = [
     {
         img: Iphone,
-        name: "Iphone"
+        name: "Điện thoại"
     },
     {
-        img: Shoes,
-        name: "Macbook"
+        img: Macbook,
+        name: "Laptop"
     },
     {
-        img: FemaleCloth,
-        name: "Cloths"
+        img: HeadPhone,
+        name: "Tai nghe"
     },
     {
         img: Sound,

@@ -12,7 +12,7 @@ const Widget = ({ numbers, heading, color, icon }) => {
         setValue(endValue);
     }, [endValue]);
 
-    const prefix = heading === 'Revenue' ? '₹' : '';
+    const prefix = heading === 'Revenue' ? 'đ' : '';
     return (
         <Box
             sx={{
