@@ -66,18 +66,19 @@ const DesktopNavigation = () => {
                   <li className="nav-links">
                     <Tooltip title='Post'>
                       <NavLink to="/post">
-                        <span className='nav-icon-span'>Bài đăng    <Badge badgeContent={setProceed ? cart.length : 0}> <AiOutlineShop className='nav-icon' /></Badge></span>
+                        <span className='nav-icon-span'>Cửa hàng  <Badge badgeContent={setProceed ? cart.length : 0}> <AiOutlineShop className='nav-icon' /></Badge></span>
                       </NavLink>
                     </Tooltip>
                   </li>
-                  : <li className="nav-links">
-                    <Tooltip title='Cart'>
-                      <NavLink to="/cart">
-                        <span className='nav-icon-span'>Giỏ hàng    <Badge badgeContent={setProceed ? cart.length : 0}> <AiOutlineShoppingCart className='nav-icon' /></Badge></span>
-                      </NavLink>
-                    </Tooltip>
-                  </li>
-              }
+                  : <div></div> }
+              <li className="nav-links">
+                <Tooltip title='Cart'>
+                  <NavLink to="/cart">
+                    <span className='nav-icon-span'>Giỏ hàng    <Badge badgeContent={setProceed ? cart.length : 0}> <AiOutlineShoppingCart className='nav-icon' /></Badge></span>
+                  </NavLink>
+                </Tooltip>
+              </li>
+
               <li className="nav-links">
                 <Tooltip title='Wishlist'>
                   <NavLink to="/wishlist">

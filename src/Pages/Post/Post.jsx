@@ -1,34 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ContextFunction } from '../../Context/Context';
 import {
-    Button,
     Typography,
-    Dialog,
-    DialogActions,
-    DialogContent,
     Container,
     CssBaseline,
-    Box,
 } from '@mui/material'
-import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { AiFillCloseCircle, AiOutlineLogin } from 'react-icons/ai'
-import CartCard from '../../Components/Card/CartCard/CartCard';
-import ProductCard from '../../Components/Card/Product Card/ProductCard';
-import { EmptyCart } from '../../Assets/Images/Image';
-import { Transition } from '../../Constants/Constant';
+
 import CopyRight from '../../Components/CopyRight/CopyRight';
 
 
 
 const Post = () => {
+
+    const getProducts = async () => {
+        if (setProceed) {
+            const { data } = await axios.get(`${process.env.REACT_APP_GET_WISHLIST}`,
+                {
+                    headers: {
+                        'Authorization': authToken
+                    }
+                })
+            setWishlistData(data)
+        }
+        else {
+            setOpenAlert(true)
+        }
+    }
     
     return (
         <>
-            <div style={{ width: '100%', height: 300 }}>
-                    alo
-                </div>
+            <CssBaseline />
+            <Container fixed maxWidth >
+
+                <Typography variant='h3' sx={{ textAlign: 'center', marginTop: 10, color: '#1976d2', fontWeight: 'bold' }}>Đăng bán sản phẩm</Typography>
+
+                <Container sx={{ display: 'flex', flexDirection: "column", mb: 10 }}>
+
+                </Container>
+            </Container>
+           
+
+            <CopyRight sx={{ mt: 8, mb: 10 }} />
         </>
     )
 }

@@ -15,6 +15,7 @@ const Register = () => {
 
   const [credentials, setCredentials] = useState({ firstName: "", lastName: '', email: "", phoneNumber: '', password: "" })
   const [showPassword, setShowPassword] = useState(false);
+  const [isPartner, setIspartner] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -28,6 +29,11 @@ const Register = () => {
       navigate("/")
     }
   }, [])
+
+  const handleCheckboxChange = (event) => {
+    setIspartner(event.target.checked);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     let phoneRegex = /^(?:\+84|0)(3|5|7|8|9)(\d{8})$/;
@@ -50,14 +56,6 @@ const Register = () => {
         toast.error("Please enter password with more than 5 characters", { autoClose: 500, theme: 'colored' })
       }
       else if (credentials.email && credentials.firstName && credentials.lastName && credentials.phoneNumber && credentials.password) {
-        console.log({
-          firstName: credentials.firstName,
-          lastName: credentials.lastName,
-          email: credentials.email,
-          phoneNumber: credentials.phoneNumber,
-          password: credentials.password,
-          key: credentials.key
-        });
         try {
           const sendAuth = await axios.post(
             process.env.REACT_APP_ADMIN_REGISTER,
@@ -67,7 +65,8 @@ const Register = () => {
               email: credentials.email,
               phoneNumber: credentials.phoneNumber,
               password: credentials.password,
-              key: credentials.key
+              key: credentials.key,
+              isPartner: isPartner
             }
           );
           console.log(sendAuth.data);
@@ -94,7 +93,7 @@ const Register = () => {
     }
 
   }
-
+console.log('isPartner', isPartner);
 
   return (
     <>
@@ -112,7 +111,7 @@ const Register = () => {
             <MdLockOutline />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Đăng kí
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -188,8 +187,14 @@ const Register = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
+                  control={<Checkbox checked={isPartner} onChange={handleCheckboxChange} value="allowExtraEmails" color="primary" />}
+                  label="Bạn là đối tác?"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="Tôi muốn nhận được thông tin mới nhất qua email"
                 />
               </Grid>
             </Grid>
@@ -199,13 +204,13 @@ const Register = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Đăng kí
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                Already have an account?
+                Bạn đã có tài khoản?
                 <Link to='/login' style={{ color: '#1976d2', marginLeft: 3 }}>
-                  Sign in
+                  Đăng nhập
                 </Link>
               </Grid>
             </Grid>
