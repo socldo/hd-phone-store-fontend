@@ -4,6 +4,7 @@ import HomePage from './Pages/Home/HomePage';
 import Login from './Auth/Login/Login';
 import Register from './Auth/Register/Register';
 import Cart from './Pages/Cart/Cart';
+import Post from './Pages/Post/Post'
 import ProductDetail from './Pages/Detail/ProductDetail';
 import SingleCategory from './SingleCategory/SingleCategory';
 import MobileNavigation from './Navigation/MobileNavigation';
@@ -41,6 +42,7 @@ function App() {
             <Route path='/Detail/type/:cat/:id' element={<ProductDetail />} />
             <Route path='product/type/:cat' element={<SingleCategory />} />
             <Route path='/cart' element={<Cart />} />
+            <Route path='/post' element={<Post />} />
             <Route path='/wishlist' element={<Wishlist />} />
             <Route path='/checkout' element={<CheckoutForm />} />
             <Route path='/update' element={<UpdateDetails />} />

@@ -58,7 +58,6 @@ export default function BasicTabs({ user, setUser, getUser }) {
     const [paymentData, setPaymentData] = useState([]);
 
     useEffect(() => {
-        console.log('process.env.REACT_APP_ADMIN_GET_CHART_DATA', process.env.REACT_APP_ADMIN_GET_CHART_DATA);
         getProductInfo();
     }, [])
     const getProductInfo = async () => {
@@ -87,16 +86,16 @@ export default function BasicTabs({ user, setUser, getUser }) {
         <Box sx={{ width: '100%' }}>
             <Grid container spacing={2} direction={isSmallScreen ? 'column' : 'row'} padding={1}>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                    <Widget numbers={totalRevenue} heading='Revenue' color='#9932CC' icon={<TbReportMoney />} />
+                    <Widget numbers={totalRevenue} heading='Doanh thu' color='#9932CC' icon={<TbReportMoney />} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                    <Widget numbers={products.length} heading='Products' color='#FFC300' icon={<AiOutlineShoppingCart />} />
+                    <Widget numbers={products.length} heading='Sản phẩm' color='#FFC300' icon={<AiOutlineShoppingCart />} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                    <Widget numbers={user.length} heading='Users' color='#FF69B4' icon={<CgProfile />} />
+                    <Widget numbers={user.length} heading='Người dùng' color='#FF69B4' icon={<CgProfile />} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                    <Widget numbers={paymentData.length} heading='Orders' color='#1f77b4  ' icon={<FaShippingFast />} />
+                    <Widget numbers={paymentData.length} heading='Đơn hàng' color='#1f77b4  ' icon={<FaShippingFast />} />
                 </Grid>
             </Grid>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
