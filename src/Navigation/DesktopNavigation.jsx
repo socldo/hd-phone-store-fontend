@@ -38,7 +38,7 @@ const DesktopNavigation = () => {
       toast.error(error.response.data, { autoClose: 500, theme: "colored" });
     }
   }
-  console.log('isPartner', isPartner);
+
   return (
     <>
       <div color="#be1e2d">

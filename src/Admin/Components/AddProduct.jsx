@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
-    Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, TextField, Typography, InputLabel, MenuItem, FormControl, Select, 
+    Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, TextField, Typography, InputLabel, MenuItem, FormControl, Select,
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -14,8 +14,32 @@ const AddProduct = ({ getProductInfo, data }) => {
     //     setAge(event.target.value);
     // };
     const [open, setOpen] = useState(false);
+    const [isPartner, setIsPartner] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const getUser = async () => {
+        try {
+            const { data } = await axios.get(`${process.env.REACT_APP_ADMIN_GET_ALL_USERS}`, {
+                headers: {
+                    'Authorization': authToken
+                }
+            });
+            setUserId(data.phoneNumber);
+            setIsAdmin(data.isAdmin);
+            setIsPartner(data.isPartner);
+        } catch (error) {
+            toast.error(error.response.data, { autoClose: 500, theme: "colored" });
+            throw error;
+        }
+    }
+
+    useEffect(() => {
+        getUser();
+    }, [])
 
     let authToken = localStorage.getItem("Authorization")
+    console.log('userId', userId);
     const [productInfo, setProductInfo] = useState({
         name: "",
         image: "",
@@ -27,6 +51,9 @@ const AddProduct = ({ getProductInfo, data }) => {
         author: "",
         brand: ""
     });
+
+
+
     // const [productInfo, setCredentials] = useState({ firstName: "", lastName: '', email: "", phoneNumber: '', password: "" })
     const handleOnchange = (e) => {
         setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
@@ -40,15 +67,7 @@ const AddProduct = ({ getProductInfo, data }) => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log({ name: productInfo.name,
-            brand: productInfo.brand,
-            price: productInfo.price,
-            category: productInfo.category,
-            image: productInfo.image,
-            rating: productInfo.rating,
-            type: productInfo.type,
-            author: productInfo.author,
-            description: productInfo.description,});
+
         try {
             if (!productInfo.name && !productInfo.image && !productInfo.price && !productInfo.rating && !productInfo.category && !productInfo.type && !productInfo.description) {
                 toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
@@ -58,9 +77,20 @@ const AddProduct = ({ getProductInfo, data }) => {
 
             }
             else {
-
-            console.log(authToken);
-                const { data } = await axios.post(`${process.env.REACT_APP_ADMIN_ADD_PRODUCT}`,
+                console.log({
+                    name: productInfo.name,
+                    brand: productInfo.brand,
+                    price: productInfo.price,
+                    category: productInfo.category,
+                    image: productInfo.image,
+                    rating: productInfo.rating,
+                    type: productInfo.type,
+                    author: productInfo.author,
+                    description: productInfo.description,
+                    status: isAdmin ? 'Đang bán' : 'Chờ duyệt',
+                    userId: userId
+                }, authToken);
+                const data = await axios.post(`${process.env.REACT_APP_ADMIN_ADD_PRODUCT}`,
                     {
                         name: productInfo.name,
                         brand: productInfo.brand,
@@ -71,14 +101,17 @@ const AddProduct = ({ getProductInfo, data }) => {
                         type: productInfo.type,
                         author: productInfo.author,
                         description: productInfo.description,
+                        userId: userId,
+                        status: isAdmin ? 'Đang bán' : 'Chờ duyệt'
                     }, {
                     headers: {
                         'Authorization': authToken
                     }
                 })
                 setOpen(false);
-                if (data === true) {
-                    getProductInfo()
+                if ( data.data) {
+                    // getProductInfo() 
+
                     toast.success(`Thêm thành công sản phẩm ${productInfo.name}`, { autoClose: 500, theme: 'colored' })
                     setProductInfo({
                         name: "",
@@ -135,8 +168,8 @@ const AddProduct = ({ getProductInfo, data }) => {
     return (
         <>
             <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', margin: "20px 0" }} >
-                <Typography variant='h6' textAlign='center' color="#1976d2" fontWeight="bold">Add new product </Typography>
-                <Button variant='contained' endIcon={<MdProductionQuantityLimits />} onClick={handleClickOpen}>Add</Button>
+                <Typography variant='h6' textAlign='center' color="#1976d2" fontWeight="bold">Đăng bán sản phẩm </Typography>
+                <Button variant='contained' endIcon={<MdProductionQuantityLimits />} onClick={handleClickOpen}>Thêm</Button>
             </Box>
             <Divider sx={{ mb: 5 }} />
             <Dialog
@@ -154,7 +187,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                                 </Grid>
                                 <Grid item xs={12} sm={6} >
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Product Type</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Loại</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -172,7 +205,7 @@ const AddProduct = ({ getProductInfo, data }) => {
 
                                 <Grid item xs={12} sm={6} >
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Product Category</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">Danh mục</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
@@ -241,8 +274,8 @@ const AddProduct = ({ getProductInfo, data }) => {
 
                             </Grid>
                             <DialogActions sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mt: 2 }}>
-                                <Button fullWidth variant='contained' type='reset' color='error' onClick={handleClose} endIcon={<MdOutlineCancel />}>Cancel</Button>
-                                <Button type="submit" fullWidth variant="contained" endIcon={<MdProductionQuantityLimits />}>Add</Button>
+                                <Button fullWidth variant='contained' type='reset' color='error' onClick={handleClose} endIcon={<MdOutlineCancel />}>Hủy</Button>
+                                <Button type="submit" fullWidth variant="contained" endIcon={<MdProductionQuantityLimits />}>Thêm</Button>
                             </DialogActions>
                         </form>
                     </Box >

@@ -93,7 +93,6 @@ const Register = () => {
     }
 
   }
-console.log('isPartner', isPartner);
 
   return (
     <>

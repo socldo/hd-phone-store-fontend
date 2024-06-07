@@ -27,10 +27,7 @@ const SingleCategory = () => {
     const getCategoryProduct = async () => {
         try {
             setIsLoading(true)
-            console.log({ userType: cat });
-            console.log(process.env.REACT_APP_PRODUCT_TYPE);
-            const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat })
-            console.log(data);
+            const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat, status: "Đang bán" })
             setIsLoading(false)
             setProductData(data)
 
