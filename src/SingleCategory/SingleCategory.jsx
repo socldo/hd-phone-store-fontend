@@ -15,8 +15,8 @@ const SingleCategory = () => {
 
     const [productData, setProductData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [filterOption, setFilterOption] = useState('All')
-    const [title, setTitle] = useState('All')
+    const [filterOption, setFilterOption] = useState('')
+    const [title, setTitle] = useState('Tất cả')
     const { cat } = useParams()
 
     useEffect(() => {
@@ -27,10 +27,7 @@ const SingleCategory = () => {
     const getCategoryProduct = async () => {
         try {
             setIsLoading(true)
-            console.log({ userType: cat });
-            console.log(process.env.REACT_APP_PRODUCT_TYPE);
-            const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat })
-            console.log(data);
+            const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat, status: "Đang bán" })
             setIsLoading(false)
             setProductData(data)
 
@@ -39,39 +36,23 @@ const SingleCategory = () => {
         }
     }
 
-    const productFilter = []
+    const productFilter = ['Tất cả', 'Giá từ thấp đến cao', 'Giá từ cao đến thấp', 'Đánh giá cao', 'Đánh giá thấp']
 
-    if (cat === 'Điện thoại') {
-        productFilter.push('All', 'Scifi', 'Business', 'Mystery', 'Cookbooks', 'Accessories', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
-    }
-    else if (cat === 'Laptop') {
-        productFilter.push('All', 'Men', 'Women', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
-    }
-    else if (cat === 'Tai nghe') {
-        productFilter.push('All', 'Running', 'Football', 'Formal', 'Casual', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
-    }
-    else if (cat === 'Loa') {
-        productFilter.push('All', 'Monitor', 'SSD', 'HDD', 'Price Low To High', 'Price High To Low', 'High Rated', 'Low Rated')
-
-    }
-    else if (cat === 'jewelry') {
-        productFilter.push('All')
-
-    }
 
     const handleChange = (e) => {
-        setFilterOption(e.target.value.split(" ").join("").toLowerCase())
+        setFilterOption(e.target.value)
         setTitle(e.target.value)
     }
     // pricelowtohigh 
     // pricehightolow
     // highrated
     // lowrated
-  
+
     const getData = async () => {
         setIsLoading(true)
-        const filter = filterOption.toLowerCase()
-        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE_CATEGORY}`, { userType: cat, userCategory: filter })
+        const filter = filterOption
+        console.log(filter);
+        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE_CATEGORY}`, { userType: cat, userCategory: filter, status: "Đang bán"  })
         setProductData(data)
         setIsLoading(false)
     }
@@ -93,7 +74,7 @@ const SingleCategory = () => {
                 < Box sx={{ minWidth: 140 }}>
                     <FormControl sx={{ width: 140 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, width: "80vw" }}>
-                            <Button endIcon={<BiFilterAlt />}>Filters</Button>
+                            <Button endIcon={<BiFilterAlt />}>Lọc</Button>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -126,4 +107,4 @@ const SingleCategory = () => {
 
 export default SingleCategory
 
-    //         
+//         

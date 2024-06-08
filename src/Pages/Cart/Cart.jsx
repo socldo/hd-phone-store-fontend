@@ -116,14 +116,14 @@ const Cart = () => {
             <CssBaseline />
             <Container fixed maxWidth >
 
-                <Typography variant='h3' sx={{ textAlign: 'center', marginTop: 10, color: '#1976d2', fontWeight: 'bold' }}>Cart</Typography>
+                <Typography variant='h3' sx={{ textAlign: 'center', marginTop: 10, color: '#1976d2', fontWeight: 'bold' }}>Giỏ hàng</Typography>
                 {
                     setProceed &&
                     cart.length <= 0 &&
                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div className="main-card">
                             <img src={EmptyCart} alt="Empty_cart" className="empty-cart-img" />
-                            <Typography variant='h6' sx={{ textAlign: 'center', color: '#1976d2', fontWeight: 'bold' }}>Your Cart is Empty</Typography>
+                            <Typography variant='h6' sx={{ textAlign: 'center', color: '#1976d2', fontWeight: 'bold' }}>Giỏ hàng đang trống</Typography>
                         </div>
                     </Box>
 
@@ -147,7 +147,7 @@ const Cart = () => {
 
                 </Container>
             </Container>
-            {setProceed && previousOrder.length > 0 && <Typography variant='h6' sx={{ textAlign: 'center', margin: "5px 0" }}>Previous Orders</Typography>}
+            {setProceed && previousOrder.length > 0 && <Typography variant='h6' sx={{ textAlign: 'center', margin: "5px 0" }}>Đơn hàng trước đó</Typography>}
             <Container maxWidth='xl' style={{ marginTop: 10, display: "flex", justifyContent: 'center', flexWrap: "wrap", paddingBottom: 20 }}>
                 {
                     previousOrder.map(product => (
@@ -166,7 +166,7 @@ const Cart = () => {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogContent sx={{ width: { xs: 280, md: 350, xl: 400 }, display: 'flex', justifyContent: 'center' }}>
-                    <Typography variant='h5'> Please Login To Proceed</Typography>
+                    <Typography variant='h5'> Login để tiếp tục</Typography>
                 </DialogContent>
                 <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
                     <Button variant='contained' onClick={handleToLogin} endIcon={<AiOutlineLogin />} color='primary'>Login</Button>

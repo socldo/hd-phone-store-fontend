@@ -30,6 +30,8 @@ const Login = () => {
       navigate("/")
     }
   }, [])
+
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -51,7 +53,7 @@ const Login = () => {
           localStorage.setItem('Authorization', receive.authToken)
           navigate('/')
         }
-        else{
+        else {
           toast.error("Something went wrong, Please try again", { autoClose: 500, theme: 'colored' })
           navigate('/')
         }
@@ -81,7 +83,7 @@ const Login = () => {
           <MdLockOutline />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Đăng nhập
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -108,7 +110,7 @@ const Login = () => {
             id="password"
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end" onClick={handleClickShowPassword} sx={{cursor:'pointer'}}>
+                <InputAdornment position="end" onClick={handleClickShowPassword} sx={{ cursor: 'pointer' }}>
                   {showPassword ? <RiEyeFill /> : <RiEyeOffFill />}
                 </InputAdornment>
               )
@@ -126,17 +128,17 @@ const Login = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Đăng nhập
           </Button>
           <Grid container>
             <Grid item xs>
               <Link to="/forgotpassword" variant="body2" style={{ color: '#1976d2' }}>
-                Forgot password?
+                Quên mật khẩu?
               </Link>
             </Grid>
             <Grid item>
               <Link to="/register" variant="body2" >
-                Don't have an account?<span style={{ color: '#1976d2' }}> Sign Up</span>
+                Chưa có tài khoản?<span style={{ color: '#1976d2' }}> Đăng kí</span>
               </Link>
             </Grid>
           </Grid>

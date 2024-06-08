@@ -132,15 +132,15 @@ const ProductReview = ({ authToken, setProceed, setOpenAlert, id }) => {
                         value={comment} onChange={(e) => {
                             setComment(e.target.value)
                         }}
-                        label="Add Review"
-                        placeholder="What did you like or dislike?"
+                        label="Thêm review"
+                        placeholder="Bạn thích hoặc không thích điều gì?"
                         multiline
                         className='comment'
                         variant="outlined"
                     />
 
                     <Tooltip title='Send Review'>
-                        <Button className='form-btn' variant='contained' type='submit' endIcon={<MdSend />}>Send</Button>
+                        <Button className='form-btn' variant='contained' type='submit' endIcon={<MdSend />}>Gửi</Button>
                     </Tooltip>
 
                 </form>
@@ -149,7 +149,7 @@ const ProductReview = ({ authToken, setProceed, setOpenAlert, id }) => {
                 </div>
             </div>
             {reviews.length >= 1 ? <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, width: "80vw" }}>
-                <Button endIcon={<MdOutlineFilterAlt />}>Filters</Button>
+                <Button endIcon={<MdOutlineFilterAlt />}>Lọc</Button>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -164,7 +164,7 @@ const ProductReview = ({ authToken, setProceed, setOpenAlert, id }) => {
 
             </Box>
                 :
-                <Typography sx={{ textAlign: 'center' }}>No reviews have been submitted for this product yet. Be the first to add a review!</Typography>
+                <Typography sx={{ textAlign: 'center' }}>Hãy đánh giá sản phẩm hoặc người bán ở đây!</Typography>
             }
             <Box className='review-box' >
                 {

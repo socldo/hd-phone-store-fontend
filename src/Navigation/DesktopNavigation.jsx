@@ -1,6 +1,6 @@
 import './Desktop.css'
 import React, { useContext, useEffect, useState } from 'react'
-import { AiOutlineHeart, AiOutlineShoppingCart, AiFillCloseCircle } from 'react-icons/ai'
+import { AiOutlineHeart, AiOutlineShoppingCart, AiFillCloseCircle, AiOutlineShop } from 'react-icons/ai'
 import { CgProfile } from 'react-icons/cg'
 import { FiLogOut } from 'react-icons/fi'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -8,19 +8,46 @@ import { Badge, Button, Dialog, DialogActions, DialogContent, Menu, MenuItem, Sl
 import { ContextFunction } from '../Context/Context';
 import { toast } from 'react-toastify';
 import { getCart, getWishList, handleLogOut, handleClickOpen, handleClose, Transition } from '../Constants/Constant'
+import axios from 'axios'
+import logoImage from '../Assets/Images/logo.png';
+import { useLocation } from 'react-router-dom';
 
 const DesktopNavigation = () => {
 
   const { cart, setCart, wishlistData, setWishlistData } = useContext(ContextFunction)
   const [openAlert, setOpenAlert] = useState(false);
+  const [isPartner, setIsPartner] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const navigate = useNavigate()
   let authToken = localStorage.getItem('Authorization');
   let setProceed = authToken !== null ? true : false
   useEffect(() => {
     getCart(setProceed, setCart, authToken)
     getWishList(setProceed, setWishlistData, authToken)
+    getUser()
   }, [])
+  const location = useLocation();
 
+  useEffect(() => {
+      // Đây là nơi bạn có thể thực hiện các hành động khi chuyển trang
+      console.log('Location changed:', location.pathname);
+      // Bạn có thể thêm bất kỳ logic nào bạn muốn ở đây.
+  }, [location]);
+
+  const getUser = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_ADMIN_GET_ALL_USERS}`, {
+        headers: {
+          'Authorization': authToken
+        }
+      })
+      setIsPartner(data.isPartner)
+      setIsAdmin(data.isAdmin)
+    } catch (error) {
+      toast.error(error.response.data, { autoClose: 500, theme: "colored" });
+    }
+  }
 
   return (
     <>
@@ -28,14 +55,14 @@ const DesktopNavigation = () => {
         <nav className='nav'>
           <div className="logo">
             <Link to='/'>
-              <span >Shop It</span>
+              <img src={logoImage} alt="Shop It Logo" style={{ height: '60px' }} />
             </Link>
           </div>
           <div className="nav-items">
             <ul className="nav-items">
               <li className="nav-links">
                 <NavLink to='/'>
-                  <span className='nav-icon-span'>  Home</span>
+                  <span className='nav-icon-span'>  Trang chủ</span>
                 </NavLink>
               </li>
               {/* <li className="nav-links">
@@ -44,20 +71,39 @@ const DesktopNavigation = () => {
               </NavLink>
             </li> */}
 
-              <li className="nav-links">
-                <Tooltip title='Cart'>
-                  <NavLink to="/cart">
-                    <span className='nav-icon-span'>Cart    <Badge badgeContent={setProceed ? cart.length : 0}> <AiOutlineShoppingCart className='nav-icon' /></Badge></span>
-                  </NavLink>
-                </Tooltip>
-              </li>
-              <li className="nav-links">
-                <Tooltip title='Wishlist'>
-                  <NavLink to="/wishlist">
-                    <span className='nav-icon-span'>Wishlist  <Badge badgeContent={setProceed ? wishlistData.length : 0}> <AiOutlineHeart className='nav-icon' /></Badge></span>
-                  </NavLink>
-                </Tooltip>
-              </li>
+              {
+                isPartner && !isAdmin ?
+                  <li className="nav-links">
+                    <Tooltip title='Post'>
+                      <NavLink to="/post">
+                        <span className='nav-icon-span'>Cửa hàng </span>
+                      </NavLink>
+                    </Tooltip>
+                  </li>
+                  : <div></div>}
+
+              {
+                !isAdmin ?
+                  <li className="nav-links">
+                    <Tooltip title='Cart'>
+                      <NavLink to="/cart">
+                        <span className='nav-icon-span'>Giỏ hàng    <Badge badgeContent={setProceed ? cart.length : 0}> <AiOutlineShoppingCart className='nav-icon' /></Badge></span>
+                      </NavLink>
+                    </Tooltip>
+                  </li>
+                  : <div></div>}
+
+              {
+                !isAdmin ?
+                  <li className="nav-links">
+                    <Tooltip title='Wishlist'>
+                      <NavLink to="/wishlist">
+                        <span className='nav-icon-span'>Yêu thích  <Badge badgeContent={setProceed ? wishlistData.length : 0}> <AiOutlineHeart className='nav-icon' /></Badge></span>
+                      </NavLink>
+                    </Tooltip>
+                  </li>
+                  : <div></div>}
+
 
               {
                 setProceed ?
@@ -71,7 +117,7 @@ const DesktopNavigation = () => {
                     </li>
                     <li style={{ display: 'flex', alignItems: 'center', justifyItems: 'center' }} onClick={() => handleClickOpen(setOpenAlert)}>
                       <Button variant='contained' className='nav-icon-span' sx={{ marginBottom: 1 }} endIcon={<FiLogOut />}>
-                        <Typography variant='button'> Logout</Typography>
+                        <Typography variant='button'> Đăng xuất</Typography>
                       </Button>
                     </li>
                   </>
