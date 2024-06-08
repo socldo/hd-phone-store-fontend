@@ -13,7 +13,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
             <CardContent >
                 <Typography variant="div" component="h1">
                     {" "}
-                    Order Summary
+                    Tóm tắt đơn hàng
                 </Typography>
                 <Typography variant="subtitle2">
                     <hr />
@@ -21,7 +21,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                 <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }} >
                         <Typography variant="body1" component="div" color='primary'>
-                            SubTotal
+                            Tạm tính
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
                             {total - shippingCoast} đ
@@ -29,7 +29,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }} >
                         <Typography variant="body1" component="div" color='primary'>
-                            Shipping
+                            Tiền ship
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
                             {shippingCoast} đ
@@ -37,7 +37,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
                         <Typography variant="body1" component="div" color='primary'>
-                            Total
+                            Tổng cộng
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
                             {total} đ
@@ -47,7 +47,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
             </CardContent>
             <CardActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2 }}>
                 <Button variant='contained' size='large' endIcon={<IoBagCheckOutline />} color="primary" onClick={proceedToCheckout}>
-                    Checkout
+                    Tiếp tục
                 </Button>
             </CardActions>
         </Card >

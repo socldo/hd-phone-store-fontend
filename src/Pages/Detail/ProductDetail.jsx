@@ -81,7 +81,7 @@ const ProductDetail = () => {
                 })
                 setWishlistData(data)
                 setWishlistData([...wishlistData, product])
-                toast.success("Added To Wishlist", { autoClose: 500, theme: 'colored' })
+                toast.success("Yêu thích", { autoClose: 500, theme: 'colored' })
             }
             catch (error) {
                 toast.error(error.response.data.msg, { autoClose: 500, theme: 'colored' })
@@ -92,21 +92,27 @@ const ProductDetail = () => {
         }
 
     };
-    const shareProduct = (product) => {
+    const shareProduct = (product, cat, id) => {
+        const url = `https://e-shopit.vercel.app/Detail/type/${cat}/${id}`;
+        const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    
+        // Kiểm tra xem thiết bị có hỗ trợ chia sẻ web không
+        if (navigator.share) {
+            navigator.share({
+                title: product.name,
+                text: 'Check out this product on e-shopit!',
+                url: url
+            }).then(() => {
+                console.log('Thanks for sharing!');
+            }).catch((error) => {
+                console.error('Something went wrong sharing the product', error);
+            });
+        } else {
+            // Nếu không hỗ trợ chia sẻ web, mở cửa sổ chia sẻ Facebook
+            window.open(facebookShareUrl, '_blank');
+        }
+    };
 
-        const data = {
-            text: product.name,
-            title: "e-shopit",
-            url: `https://e-shopit.vercel.app/Detail/type/${cat}/${id}`
-        }
-        if (navigator.canShare && navigator.canShare(data)) {
-            navigator.share(data);
-        }
-        else {
-            toast.error("browser not support", { autoClose: 500, theme: 'colored' })
-        }
-
-    }
     const getSimilarProducts = async () => {
         const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat })
         setSimilarProduct(data)
@@ -128,13 +134,13 @@ const ProductDetail = () => {
         data.push(cat)
     }
     const increaseQuantity = () => {
-        setProductQuantity((prev) => prev + 1)
+        // setProductQuantity((prev) => prev + 1)
         if (productQuantity >= 5) {
             setProductQuantity(5)
         }
     }
     const decreaseQuantity = () => {
-        setProductQuantity((prev) => prev - 1)
+        // setProductQuantity((prev) => prev - 1)
         if (productQuantity <= 1) {
             setProductQuantity(1)
         }
@@ -196,7 +202,7 @@ const ProductDetail = () => {
                                 </div>
                             </Typography>
                             <Chip
-                                label={product.price > 1000 ? "Upto 9% off" : "Upto 38% off"}
+                                label={product.price > 1000 ? "Trợ giá lên đén 9%" : "Trợ giá lên đến 38%"}
                                 variant="outlined"
                                 sx={{ background: '#1976d2', color: 'white', width: '150px', fontWeight: 'bold' }}
                                 avatar={<TbDiscount2 color='white' />}
@@ -204,7 +210,7 @@ const ProductDetail = () => {
 
                             />
                             <div style={{ display: 'flex', gap: 20 }}>
-                                <Typography variant="h6" color="red"><s> ₹{product.price > 1000 ? product.price + 1000 : product.price + 300}</s> </Typography>
+                                <Typography variant="h6" color="red"><s> {product.price > 1000 ? product.price + 1000 : product.price + 300} đ</s> </Typography>
                                 <Typography variant="h6" color="primary">
                                     {product.price} đ
                                 </Typography>
@@ -228,7 +234,7 @@ const ProductDetail = () => {
                             <Rating name="read-only" value={Math.round(product.rating)} readOnly precision={0.5} />
                             <div style={{ display: 'flex' }} >
                                 <Tooltip title='Add To Cart'>
-                                    <Button variant='contained' className='all-btn' startIcon={<MdAddShoppingCart />} onClick={(() => addToCart(product))}>Buy</Button>
+                                    <Button variant='contained' className='all-btn' startIcon={<MdAddShoppingCart />} onClick={(() => addToCart(product))}>Mua</Button>
                                 </Tooltip>
                                 <Tooltip title='Add To Wishlist'>
                                     <Button style={{ marginLeft: 10, }} size='small' variant='contained' className='all-btn' onClick={(() => addToWhishList(product))}>
@@ -237,7 +243,7 @@ const ProductDetail = () => {
 
                                 </Tooltip>
                                 <Tooltip title='Share'>
-                                    <Button style={{ marginLeft: 10 }} variant='contained' className='all-btn' startIcon={<AiOutlineShareAlt />} onClick={() => shareProduct(product)}>Share</Button>
+                                    <Button style={{ marginLeft: 10 }} variant='contained' className='all-btn' startIcon={<AiOutlineShareAlt />} onClick={() => shareProduct(product)}>Chia sẻ</Button>
                                 </Tooltip>
 
                             </div>
