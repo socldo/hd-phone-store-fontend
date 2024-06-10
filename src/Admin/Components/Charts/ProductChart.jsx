@@ -61,26 +61,34 @@ const ProductChart = ({ products, review, cart, wishlist, paymentData }) => {
     ];
 
     const cartData = [
-        {
-            name: "Cloths",
-            "Quantity in cart": cart.filter(prod => prod.productId.type === "cloths").length
-        },
-        {
-            name: "Shoes",
-            "Quantity in cart": cart.filter(prod => prod.productId.type === "shoe").length
-        },
-        {
-            name: "Electronics",
-            "Quantity in cart": cart.filter(prod => prod.productId.type === "electronics").length
-        },
-        {
-            name: "Books",
-            "Quantity in cart": cart.filter(prod => prod.productId.type === "book").length
-        },
-        {
-            name: "Jewelry",
-            "Quantity in cart": cart.filter(prod => prod.productId.type === "jewelry").length
-        },
+        // {
+        //     name: "Điện thoại",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Điện thoại").length
+        // },
+        // {
+        //     name: "Laptop",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Laptop").length
+        // },
+        // {
+        //     name: "Tai nghe",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Tai nghe").length
+        // },
+        // {
+        //     name: "Loa",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Loa").length
+        // },
+        // {
+        //     name: "Sạc dự phòng",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Sạc dự phòng").length
+        // },
+        // {
+        //     name: "Sạc",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Sạc").length
+        // },
+        // {
+        //     name: "Đồng",
+        //     "Quantity in cart": cart.filter(prod => prod.productId.type === "Sạc dự phòng").length
+        // },
     ];
 
     const wishlistData = [

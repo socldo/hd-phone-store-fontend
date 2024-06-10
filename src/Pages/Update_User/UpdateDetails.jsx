@@ -53,9 +53,7 @@ const UpdateDetails = () => {
             userDetails.email = data.email
             userDetails.phoneNumber = data.phoneNumber
             userDetails.address = data.address
-            userDetails.zipCode = data.zipCode
             userDetails.city = data.city
-            userDetails.userState = data.userState
             setUserData(data);
 
         } catch (error) {
@@ -91,12 +89,6 @@ const UpdateDetails = () => {
             }
             else if (!userDetails.city) {
                 toast.error("Please add city", { autoClose: 500, theme: 'colored' })
-            }
-            else if (!userDetails.zipCode) {
-                toast.error("Please enter valid Zip code", { autoClose: 500, theme: 'colored' })
-            }
-            else if (!userDetails.userState) {
-                toast.error("Please add state", { autoClose: 500, theme: 'colored' })
             }
             else {
                 const { data } = await axios.put(`${process.env.REACT_APP_UPDATE_USER_DETAILS}`, {
@@ -194,12 +186,6 @@ const UpdateDetails = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField label="City" name='city' value={userDetails.city || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField type='tel' label="Postal/Zip Code" name='zipCode' value={userDetails.zipCode || ''} onChange={handleOnchange} variant="outlined" fullWidth />
-                        </Grid>
-                        <Grid item xs={12} >
-                            <TextField label="Province/State" name='userState' value={userDetails.userState || ''} onChange={handleOnchange} variant="outlined" fullWidth />
-                        </Grid>
                     </Grid>
                     <Container sx={{ display: 'flex', justifyContent: 'space-around', marginTop: 5 }}>
                         <Button variant='contained' endIcon={<TiArrowBackOutline />} onClick={()=>navigate(-1)} >Back</Button>
@@ -272,7 +258,7 @@ const UpdateDetails = () => {
                     {/* <DialogTitle>{"Use Google's location service?"}</DialogTitle> */}
                     <DialogContent sx={{ width: { xs: 280, md: 350, xl: 400 } }}>
                         <DialogContentText style={{ textAlign: 'center' }} id="alert-dialog-slide-description">
-                            <Typography variant='body1'>Your all data will be erased</Typography>
+                            <Typography variant='body1'>Thông tin bạn sẽ được làm trống</Typography>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>

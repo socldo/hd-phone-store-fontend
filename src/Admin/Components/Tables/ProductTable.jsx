@@ -31,6 +31,8 @@ import { toast } from 'react-toastify';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+
 const ProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -274,7 +276,7 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                 <Box display="flex" alignItems="center" justifyContent="center">
                                                     {prod.status}
                                                     <Tooltip title="Duyệt">
-                                                        {prod.status === 'Chờ duyệt' && (
+                                                        {prod.status === 'Chờ duyệt' && isAdmin && (
                                                             <PendingActionsIcon
                                                                 onClick={() => handleApproveProduct(prod._id, "Đang bán")}
                                                                 sx={{
@@ -289,6 +291,19 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                     </Tooltip>
                                                     <Tooltip title="Đang đăng bán">
                                                         {prod.status === 'Đang bán' && (
+                                                            <ShoppingBasketIcon
+                                                                sx={{
+                                                                    ml: 1,
+                                                                    color: 'green',
+                                                                    '&:hover': {
+                                                                        color: 'darkgreen',
+                                                                    },
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </Tooltip>
+                                                    <Tooltip title="Đã bán">
+                                                        {prod.status === 'Đã bán' && (
                                                             <DoneOutlinedIcon
                                                                 sx={{
                                                                     ml: 1,
@@ -301,7 +316,7 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                         )}
                                                     </Tooltip>
                                                     <Tooltip title="Hủy">
-                                                        {(prod.status === 'Chờ duyệt' && isAdmin) && (
+                                                        {(prod.status !== 'Đã bán') && (
                                                             <CancelIcon onClick={() => handleApproveProduct(prod._id, "Đã hủy")}
                                                                 sx={{
                                                                     ml: 1,
