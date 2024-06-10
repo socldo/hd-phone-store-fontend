@@ -53,9 +53,8 @@ const ProductDetail = () => {
     const addToCart = async (product) => {
         if (setProceed) {
             try {
-
-
-                const { data } = await axios.post(`${process.env.REACT_APP_ADD_CART}`, { _id: product._id, quantity: productQuantity }, {
+                console.log( { _id: product._id, quantity: productQuantity, author: product.author });
+                const { data } = await axios.post(`${process.env.REACT_APP_ADD_CART}`, { _id: product._id, quantity: productQuantity, author: product.author }, {
                     headers: {
                         'Authorization': authToken
                     }
@@ -95,7 +94,7 @@ const ProductDetail = () => {
     const shareProduct = (product, cat, id) => {
         const url = `https://e-shopit.vercel.app/Detail/type/${cat}/${id}`;
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    
+
         // Kiểm tra xem thiết bị có hỗ trợ chia sẻ web không
         if (navigator.share) {
             navigator.share({
@@ -114,7 +113,7 @@ const ProductDetail = () => {
     };
 
     const getSimilarProducts = async () => {
-        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat })
+        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat, status: "Đang bán" })
         setSimilarProduct(data)
     }
     let data = [];
@@ -238,7 +237,7 @@ const ProductDetail = () => {
                                 </Tooltip>
                                 <Tooltip title='Add To Wishlist'>
                                     <Button style={{ marginLeft: 10, }} size='small' variant='contained' className='all-btn' onClick={(() => addToWhishList(product))}>
-                                        {<AiFillHeart fontSize={21}/>}
+                                        {<AiFillHeart fontSize={21} />}
                                     </Button>
 
                                 </Tooltip>
@@ -267,7 +266,7 @@ const ProductDetail = () => {
                 </Box>
 
             </Container >
-            <CopyRight   sx={{ mt: 8, mb: 10 }} />
+            <CopyRight sx={{ mt: 8, mb: 10 }} />
 
         </>
     )

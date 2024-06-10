@@ -33,7 +33,7 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
-const ProductTable = ({ data, getProductInfo }) => {
+const BuyProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openOrderDialog, setOpenOrderDialog] = useState(false);
@@ -111,23 +111,23 @@ const ProductTable = ({ data, getProductInfo }) => {
             align: 'center',
         },
         {
-            id: 'rating',
-            label: 'Đánh giá',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
             id: 'status',
             label: 'Trạng thái',
             minWidth: 100,
             align: 'center',
         },
         {
-            id: 'orders',
-            label: 'Đơn hàng',
+            id: 'authorName',
+            label: 'Tên người bán',
             minWidth: 100,
             align: 'center',
         },
+        {
+            id: 'authorPhone',
+            label: 'Số điện thoại người bán',
+            minWidth: 100,
+            align: 'center',
+        }
     ];
 
     const filterData = () => {
@@ -175,13 +175,8 @@ const ProductTable = ({ data, getProductInfo }) => {
     }, [data, searchTerm]);
 
     const handleOrderDialogOpen = async (productId) => {
-        console.log(`${process.env.REACT_APP_ORDERED_PRODUCT}/${productId}`);
         try {
-            const response = await axios.get(`${process.env.REACT_APP_ORDERED_PRODUCT}/${productId}`, {
-                headers: {
-                    'Authorization': authToken
-                }
-            });
+            const response = await axios.get(`/api/orders/${productId}`);
             setOrderDetails(response.data);
             setOpenOrderDialog(true);
         } catch (error) {
@@ -213,7 +208,6 @@ const ProductTable = ({ data, getProductInfo }) => {
                     }}
                 />
             </Container>
-            <AddProduct getProductInfo={getProductInfo} data={data} />
             <Paper
                 style={{
                     overflow: "auto",
@@ -269,18 +263,14 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                 {prod.price} đ
                                             </Link>
                                         </TableCell>
-                                        <TableCell align="center">
-                                            <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.rating}
-                                            </Link>
-                                        </TableCell>
+
                                         <TableCell
                                             align="center"
                                         >
                                             <MuiLink component={Link} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
                                                 <Box display="flex" alignItems="center" justifyContent="center">
                                                     {prod.status}
-                                                    <Tooltip title="Duyệt">
+                                                    {/* <Tooltip title="Duyệt">
                                                         {prod.status === 'Chờ duyệt' && isAdmin && (
                                                             <PendingActionsIcon
                                                                 onClick={() => handleApproveProduct(prod._id, "Đang bán")}
@@ -320,19 +310,6 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                             />
                                                         )}
                                                     </Tooltip>
-                                                    <Tooltip title="Bán xong">
-                                                        {(prod.status !== 'Đã bán') && (
-                                                            <DoneOutlinedIcon onClick={() => handleApproveProduct(prod._id, "Đã bán")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
                                                     <Tooltip title="Hủy">
                                                         {(prod.status !== 'Đã bán') && (
                                                             <CancelIcon onClick={() => handleApproveProduct(prod._id, "Đã hủy")}
@@ -345,16 +322,21 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                                 }}
                                                             />
                                                         )}
-                                                    </Tooltip>
+                                                    </Tooltip> */}
                                                 </Box>
                                             </MuiLink>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MdVisibility
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleOrderDialogOpen(prod._id)}
-                                            />
+                                            <Link>
+                                                {prod.author ? prod.author.lastName : ''}
+                                            </Link>
                                         </TableCell>
+                                        <TableCell align="center">
+                                            <Link>
+                                                {prod.author ?  prod.author.phoneNumber : ''}
+                                            </Link>
+                                        </TableCell>
+
                                     </TableRow>
                                 ))
                             )}
@@ -368,37 +350,27 @@ const ProductTable = ({ data, getProductInfo }) => {
                 open={openOrderDialog}
                 onClose={handleOrderDialogClose}
             >
-                <DialogTitle sx={{ textAlign: "center", fontWeight: 'bold', color: "#1976d2" }}>
-                    Danh sách đơn đặt hàng
-                </DialogTitle>
+                <DialogTitle sx={{ textAlign: "center", fontWeight: 'bold', color: "#1976d2" }}>Chi tiết đơn hàng</DialogTitle>
                 <DialogContent>
                     {orderDetails ? (
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Tên</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Hình ảnh</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Giá</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Email người đặt</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Số điện thoại người đặt</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Tên người đặt</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {orderDetails.map((order, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{order.productId.name}</TableCell>
-                                        <TableCell>
-                                            <img src={order.productId.image} alt={order.productId.name} style={{ maxWidth: '100px' }} />
-                                        </TableCell>
-                                        <TableCell>{order.productId.price}</TableCell>
-                                        <TableCell>{order.user.email}</TableCell>
-                                        <TableCell>{order.user.phoneNumber}</TableCell>
-                                        <TableCell>{order.user.firstName} {order.user.lastName}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <Box>
+                            {orderDetails.map((order, index) => (
+                                <Box key={index} mb={2}>
+                                    <Typography variant="body1">
+                                        Order ID: {order.id}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Customer: {order.customerName}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Quantity: {order.quantity}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Total Price: {order.totalPrice} đ
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
                     ) : (
                         <Typography variant="body1">Loading...</Typography>
                     )}
@@ -413,4 +385,4 @@ const ProductTable = ({ data, getProductInfo }) => {
     );
 }
 
-export default ProductTable;
+export default BuyProductTable;

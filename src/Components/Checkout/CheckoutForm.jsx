@@ -71,8 +71,15 @@ const CheckoutForm = () => {
             toast.error("Vui lòng điền đầy đủ các ô còn trống", { autoClose: 500, theme: "colored" })
         }
         else {
-            try {
-                const { data: { key } } = await axios.get(`${process.env.REACT_APP_GET_KEY}`)
+            try {             
+                console.log('Data', {
+                amount: totalAmount,
+                productDetails: JSON.stringify(cart),
+                userId: userData._id,
+                userDetails: JSON.stringify(userDetails),
+            });
+                // const { data: { key } } = await axios.get(`${process.env.REACT_APP_GET_KEY}`)
+   
                 const { data } = await axios.post(`${process.env.REACT_APP_GET_CHECKOUT}`, {
                     amount: totalAmount,
                     productDetails: JSON.stringify(cart),

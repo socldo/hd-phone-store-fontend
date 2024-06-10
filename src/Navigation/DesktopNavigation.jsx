@@ -1,17 +1,15 @@
 import './Desktop.css'
 import React, { useContext, useEffect, useState } from 'react'
-import { AiOutlineHeart, AiOutlineShoppingCart, AiFillCloseCircle, AiOutlineShop } from 'react-icons/ai'
+import { AiOutlineHeart, AiOutlineShoppingCart, AiFillCloseCircle } from 'react-icons/ai'
 import { CgProfile } from 'react-icons/cg'
 import { FiLogOut } from 'react-icons/fi'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Badge, Button, Dialog, DialogActions, DialogContent, Menu, MenuItem, Slide, Tooltip, Typography } from '@mui/material';
+import { Badge, Button, Dialog, DialogActions, DialogContent, Tooltip, Typography } from '@mui/material';
 import { ContextFunction } from '../Context/Context';
 import { toast } from 'react-toastify';
 import { getCart, getWishList, handleLogOut, handleClickOpen, handleClose, Transition } from '../Constants/Constant'
 import axios from 'axios'
 import logoImage from '../Assets/Images/logo.png';
-import { useLocation } from 'react-router-dom';
-
 const DesktopNavigation = () => {
 
   const { cart, setCart, wishlistData, setWishlistData } = useContext(ContextFunction)
@@ -26,14 +24,7 @@ const DesktopNavigation = () => {
     getCart(setProceed, setCart, authToken)
     getWishList(setProceed, setWishlistData, authToken)
     getUser()
-  }, [])
-  const location = useLocation();
-
-  useEffect(() => {
-      // Đây là nơi bạn có thể thực hiện các hành động khi chuyển trang
-      console.log('Location changed:', location.pathname);
-      // Bạn có thể thêm bất kỳ logic nào bạn muốn ở đây.
-  }, [location]);
+  }, [authToken])
 
   const getUser = async () => {
     try {
@@ -77,6 +68,16 @@ const DesktopNavigation = () => {
                     <Tooltip title='Post'>
                       <NavLink to="/post">
                         <span className='nav-icon-span'>Cửa hàng </span>
+                      </NavLink>
+                    </Tooltip>
+                  </li>
+                  : <div></div>}
+              {
+                !isAdmin ?
+                  <li className="nav-links">
+                    <Tooltip title='order'>
+                      <NavLink to="/order">
+                        <span className='nav-icon-span'>Đặt hàng </span>
                       </NavLink>
                     </Tooltip>
                   </li>

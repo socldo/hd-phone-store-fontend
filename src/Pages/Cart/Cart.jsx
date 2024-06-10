@@ -50,6 +50,7 @@ const Cart = () => {
     }, [])
 
     useEffect(() => {
+        console.log('Authorization', authToken);
         if (setProceed) {
             setTotal(cart.reduce((acc, curr) => (acc + ((curr.productId?.price * curr.quantity) + shippingCoast)), 0))
         }
