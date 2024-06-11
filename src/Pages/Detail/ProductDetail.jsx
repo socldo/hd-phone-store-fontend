@@ -73,6 +73,7 @@ const ProductDetail = () => {
     const addToWhishList = async (product) => {
         if (setProceed) {
             try {
+                console.log(`${process.env.REACT_APP_ADD_WISHLIST}`, { _id: product._id });
                 const { data } = await axios.post(`${process.env.REACT_APP_ADD_WISHLIST}`, { _id: product._id }, {
                     headers: {
                         'Authorization': authToken

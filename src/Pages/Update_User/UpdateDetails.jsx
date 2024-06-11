@@ -165,40 +165,40 @@ const UpdateDetails = () => {
     return (
         <>
             <Container sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginBottom: 10 }}>
-                <Typography variant='h6' sx={{ margin: '30px 0', fontWeight: 'bold', color: '#1976d2' }}>Personal Information</Typography>
+                <Typography variant='h6' sx={{ margin: '30px 0', fontWeight: 'bold', color: '#1976d2' }}>Thông tin cá nhân</Typography>
                 <form noValidate autoComplete="off" className={styles.checkout_form} onSubmit={handleSubmit} >
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <TextField label="First Name" name='firstName' value={userDetails.firstName || ''} onChange={handleOnchange} variant="outlined" fullWidth />
+                            <TextField label="Họ" name='firstName' value={userDetails.firstName || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField label="Last Name" name='lastName' value={userDetails.lastName || ''} onChange={handleOnchange} variant="outlined" fullWidth />
+                            <TextField label="Tên" name='lastName' value={userDetails.lastName || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField label="Contact Number" type='tel' name='phoneNumber' value={userDetails.phoneNumber || ''} onChange={handleOnchange} variant="outlined" fullWidth />
+                            <TextField label="Số điện thoại liên hệ" type='tel' name='phoneNumber' value={userDetails.phoneNumber || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField label="Email" name='email' value={userDetails.email || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField label="Address" name='address' value={userDetails.address || ''} onChange={handleOnchange} variant="outlined" fullWidth />
+                            <TextField label="Địa chỉ" name='address' value={userDetails.address || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField label="City" name='city' value={userDetails.city || ''} onChange={handleOnchange} variant="outlined" fullWidth />
+                            <TextField label="Thành phố" name='city' value={userDetails.city || ''} onChange={handleOnchange} variant="outlined" fullWidth />
                         </Grid>
                     </Grid>
                     <Container sx={{ display: 'flex', justifyContent: 'space-around', marginTop: 5 }}>
-                        <Button variant='contained' endIcon={<TiArrowBackOutline />} onClick={()=>navigate(-1)} >Back</Button>
-                        <Button variant='contained' endIcon={<AiOutlineFileDone />}  type='submit'>Save</Button>
+                        <Button variant='contained' endIcon={<TiArrowBackOutline />} onClick={()=>navigate(-1)} >Trở về</Button>
+                        <Button variant='contained' endIcon={<AiOutlineFileDone />}  type='submit'>Lưu</Button>
                     </Container>
                 </form >
 
-                <Typography variant='h6' sx={{ margin: '20px 0', fontWeight: 'bold', color: '#1976d2' }}>Reset Password</Typography>
+                <Typography variant='h6' sx={{ margin: '20px 0', fontWeight: 'bold', color: '#1976d2' }}>Reset Mật khẩu</Typography>
                 <form onSubmit={handleResetPassword}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} >
                             <TextField
-                                label="Current Password"
+                                label="Mật khẩu hiện tại"
                                 name='currentPassword'
                                 type={showPassword ? "text" : "password"}
                                 InputProps={{
@@ -219,7 +219,7 @@ const UpdateDetails = () => {
                         </Grid>
                         <Grid item xs={12} >
                             <TextField
-                                label="New Password"
+                                label="Mật khẩu mới"
                                 name='newPassword'
                                 type={showNewPassword ? "text" : "password"}
                                 id="password"
@@ -245,8 +245,8 @@ const UpdateDetails = () => {
                     </Box>
                 </form>
                 <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', margin: "25px 0", width: '100%' }}>
-                    <Typography variant='h6'>Delete Your Account?</Typography>
-                    <Button variant='contained' color='error' endIcon={<AiFillDelete />} onClick={() => setOpenAlert(true)}>Delete</Button>
+                    <Typography variant='h6'>Xóa tài khoản của bạn?</Typography>
+                    <Button variant='contained' color='error' endIcon={<AiFillDelete />} onClick={() => setOpenAlert(true)}>Xóa</Button>
                 </Box>
                 <Dialog
                     open={openAlert}
