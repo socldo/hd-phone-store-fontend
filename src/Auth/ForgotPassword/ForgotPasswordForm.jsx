@@ -65,7 +65,7 @@ const ForgotPasswordForm = () => {
                         </Box>
 
                     </Box>
-                    <CopyRight sx={{ mt: 8, mb: 4 }} />
+                    {/* <CopyRight sx={{ mt: 8, mb: 4 }} /> */}
                 </Container >
                 :
                 <Box
@@ -78,7 +78,7 @@ const ForgotPasswordForm = () => {
                     }}
                 >
                     <Typography component="h2" variant="h6" color='#1976d2' margin="20px 0">
-                        Email Sent Successfully
+                        Gửi email thành công
                     </Typography>
                     <a href="https://mail.google.com/mail/" target='_blank' rel='noreferrer'>  <Button endIcon={<MdMailOutline />} variant='contained'>Open Mail</Button></a>
                 </Box>

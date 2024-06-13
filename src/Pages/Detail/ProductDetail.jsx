@@ -105,7 +105,7 @@ const ProductDetail = () => {
             }).then(() => {
                 console.log('Thanks for sharing!');
             }).catch((error) => {
-                console.error('Something went wrong sharing the product', error);
+                console.error('Có gì đó sai sai sharing the product', error);
             });
         } else {
             // Nếu không hỗ trợ chia sẻ web, mở cửa sổ chia sẻ Facebook

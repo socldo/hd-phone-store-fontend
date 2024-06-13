@@ -212,7 +212,7 @@ const AdminRegister = () => {
             </Grid>
           </Box>
         </Box>
-        <CopyRight sx={{ mt: 5 }} />
+        {/* <CopyRight sx={{ mt: 5 }} /> */}
       </Container>
     </>
   )

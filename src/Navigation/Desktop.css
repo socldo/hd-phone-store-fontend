@@ -11,7 +11,7 @@
     width: 100%;
     z-index: 1000;
     background: white;
-    
+
     /* background-color: red; */
     /* border-radius: 10px; */
 }
@@ -68,6 +68,89 @@ nav ul .nav-links:hover:after {
 
 .nav-icon:not(:last-child) {
     font-size: 29px;
+}
+
+.header {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Added shadow */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-image {
+    height: 50px;
+}
+
+.nav-items {
+    display: flex;
+    align-items: center;
+}
+
+.nav-items ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+.nav-icon {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.profile-icon {
+    font-size: 29px;
+    margin-top: 7px;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #be1e2d;
+    color: #fff;
+}
+
+.dialog-content {
+    display: flex;
+    justify-content: center;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 @media screen and (max-width: 900px) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { MdVisibility } from 'react-icons/md';
+import { MdVisibility, MdChat } from 'react-icons/md';
 import {
     Table,
     TableBody,
@@ -22,8 +22,7 @@ import {
     Icon,
     Link as MuiLink,
     Tooltip
-}
-    from '@mui/material';
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddProduct from '../AddProduct';
 import axios from 'axios';
@@ -32,20 +31,21 @@ import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import ChatDialog from '../ChatDialog';
 
 const ProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openOrderDialog, setOpenOrderDialog] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
-
+    const [chatProductId, setChatProductId] = useState(null);
+    const [chatOpen, setChatOpen] = useState(false);
 
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
 
-
-    let authToken = localStorage.getItem("Authorization")
+    let authToken = localStorage.getItem("Authorization");
 
     const getUser = async () => {
         try {
@@ -63,7 +63,6 @@ const ProductTable = ({ data, getProductInfo }) => {
         }
     }
 
-
     const changeStatusProduct = async (id, status) => {
         try {
             const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_CHANGE_STATUS}`,
@@ -78,7 +77,6 @@ const ProductTable = ({ data, getProductInfo }) => {
             if (data) {
                 toast.success(`Cập nhật thành công`, { autoClose: 500, theme: 'colored' })
             }
-
         } catch (error) {
             toast.error(error.response.data, { autoClose: 500, theme: "colored" });
             throw error;
@@ -128,6 +126,12 @@ const ProductTable = ({ data, getProductInfo }) => {
             minWidth: 100,
             align: 'center',
         },
+        {
+            id: 'chat',
+            label: 'Trò chuyện',
+            minWidth: 100,
+            align: 'center',
+        }
     ];
 
     const filterData = () => {
@@ -168,14 +172,12 @@ const ProductTable = ({ data, getProductInfo }) => {
         changeStatusProduct(id, status);
     };
 
-
     useEffect(() => {
         getUser();
         setFilteredData(filterData());
     }, [data, searchTerm]);
 
     const handleOrderDialogOpen = async (productId) => {
-        console.log(`${process.env.REACT_APP_ORDERED_PRODUCT}/${productId}`);
         try {
             const response = await axios.get(`${process.env.REACT_APP_ORDERED_PRODUCT}/${productId}`, {
                 headers: {
@@ -192,6 +194,16 @@ const ProductTable = ({ data, getProductInfo }) => {
     const handleOrderDialogClose = () => {
         setOpenOrderDialog(false);
         setOrderDetails(null);
+    };
+
+    const handleChatOpen = (productId) => {
+        setChatProductId(productId);
+        setChatOpen(true);
+    };
+
+    const handleChatClose = () => {
+        setChatOpen(false);
+        setChatProductId(null);
     };
 
     return (
@@ -236,7 +248,6 @@ const ProductTable = ({ data, getProductInfo }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-
                             {filteredData.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={columns.length}>
@@ -246,7 +257,6 @@ const ProductTable = ({ data, getProductInfo }) => {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-
                                 filteredData.map((prod) => (
                                     <TableRow key={prod._id}>
                                         <TableCell component="th" scope="row" align="center">
@@ -321,7 +331,7 @@ const ProductTable = ({ data, getProductInfo }) => {
                                                         )}
                                                     </Tooltip>
                                                     <Tooltip title="Bán xong">
-                                                        {(prod.status !== 'Đã bán') && (
+                                                        {(prod.status === 'Đang bán' && !isAdmin && !isPartner) && (
                                                             <DoneOutlinedIcon onClick={() => handleApproveProduct(prod._id, "Đã bán")}
                                                                 sx={{
                                                                     ml: 1,
@@ -353,6 +363,12 @@ const ProductTable = ({ data, getProductInfo }) => {
                                             <MdVisibility
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleOrderDialogOpen(prod._id)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <MdChat
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => handleChatOpen(prod._id)}
                                             />
                                         </TableCell>
                                     </TableRow>
@@ -409,6 +425,14 @@ const ProductTable = ({ data, getProductInfo }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {/* Chat Dialog */}
+            <ChatDialog
+                open={chatOpen}
+                onClose={handleChatClose}
+                productId={chatProductId}
+                userId={userId}
+            />
         </>
     );
 }

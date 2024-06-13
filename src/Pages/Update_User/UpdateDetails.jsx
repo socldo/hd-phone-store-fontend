@@ -57,7 +57,7 @@ const UpdateDetails = () => {
             setUserData(data);
 
         } catch (error) {
-            toast.error("Something went wrong", { autoClose: 500, theme: 'colored' })
+            toast.error("Có gì đó sai sai", { autoClose: 500, theme: 'colored' })
 
         }
     }
@@ -73,22 +73,22 @@ const UpdateDetails = () => {
         e.preventDefault()
         try {
             if (!userDetails.email && !userDetails.firstName && !userDetails.phoneNumber && !userDetails.lastName && !userDetails.address && !userDetails.city && !userDetails.userState && !userDetails.zipCode) {
-                toast.error("Please Fill the all Fields", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
             }
-            else if (userDetails.firstName.length < 3 || userDetails.lastName.length < 3) {
-                toast.error("Please enter name with more than 3 characters", { autoClose: 500, theme: 'colored' })
+            else if (userDetails.firstName.length < 2 || userDetails.lastName.length < 3) {
+                toast.error("Tên phải nhiều hơn 3 kí tự", { autoClose: 500, theme: 'colored' })
             }
             else if (!emailRegex.test(userDetails.email)) {
-                toast.error("Please enter valid email", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền email hợp lệ", { autoClose: 500, theme: 'colored' })
             }
             else if (!phoneRegex.test(userDetails.phoneNumber)) {
-                toast.error("Please enter a valid phone number", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền số điện thoại hợp lệ", { autoClose: 500, theme: 'colored' })
             }
             else if (!userDetails.address) {
-                toast.error("Please add address", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền địa chỉ", { autoClose: 500, theme: 'colored' })
             }
             else if (!userDetails.city) {
-                toast.error("Please add city", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền thành phố", { autoClose: 500, theme: 'colored' })
             }
             else {
                 const { data } = await axios.put(`${process.env.REACT_APP_UPDATE_USER_DETAILS}`, {
@@ -100,12 +100,12 @@ const UpdateDetails = () => {
                         }
                     })
                 if (data.success === true) {
-                    toast.success("Updated Successfully", { autoClose: 500, theme: 'colored' })
+                    toast.success("Cập nhật thành công", { autoClose: 500, theme: 'colored' })
                     getUserData()
                     
                 }
                 else {
-                    toast.error("Something went wrong", { autoClose: 500, theme: 'colored' })
+                    toast.error("Có gì đó sai sai", { autoClose: 500, theme: 'colored' })
                 }
             }
         }
@@ -119,13 +119,13 @@ const UpdateDetails = () => {
         e.preventDefault()
         try {
             if (!password.currentPassword && !password.newPassword) {
-                toast.error("Please Fill the all Fields", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
             }
             else if (password.currentPassword.length < 5) {
-                toast.error("Please enter valid password", { autoClose: 500, theme: 'colored' })
+                toast.error("Vui lòng điền mật khẩu hợp lệ", { autoClose: 500, theme: 'colored' })
             }
-            else if (password.newPassword.length < 5) {
-                toast.error("Please enter password with more than 5 characters", { autoClose: 500, theme: 'colored' })
+            else if (password.newPassword.length < 4) {
+                toast.error("Mật khẩu phải hơn 4 kí tự", { autoClose: 500, theme: 'colored' })
             }
             else {
                 const { data } = await axios.post(`${process.env.REACT_APP_RESET_PASSWORD}`, {

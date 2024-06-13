@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { MdVisibility } from 'react-icons/md';
+import { MdVisibility, MdChat } from 'react-icons/md';
 import {
     Table,
     TableBody,
@@ -19,11 +19,9 @@ import {
     Button,
     Typography,
     Box,
-    Icon,
     Link as MuiLink,
     Tooltip
-}
-    from '@mui/material';
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddProduct from '../AddProduct';
 import axios from 'axios';
@@ -32,18 +30,19 @@ import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import ChatDialog from '../ChatDialog'; // Ensure you have this component
 
 const BuyProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openOrderDialog, setOpenOrderDialog] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
-
-
+    const [chatOpen, setChatOpen] = useState(false);
+    const [chatProductId, setChatProductId] = useState(null);
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
-
+    const [idUser, setIdUser] = useState('');
 
     let authToken = localStorage.getItem("Authorization")
 
@@ -62,7 +61,6 @@ const BuyProductTable = ({ data, getProductInfo }) => {
             throw error;
         }
     }
-
 
     const changeStatusProduct = async (id, status) => {
         try {
@@ -86,48 +84,14 @@ const BuyProductTable = ({ data, getProductInfo }) => {
     }
 
     const columns = [
-        {
-            id: 'name',
-            label: 'Tên',
-            minWidth: 170,
-            align: 'center',
-        },
-        {
-            id: 'image',
-            label: 'Hình ảnh',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'type',
-            label: 'Loại sản phẩm',
-            align: 'center',
-            minWidth: 100
-        },
-        {
-            id: 'price',
-            label: 'Giá',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'status',
-            label: 'Trạng thái',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'authorName',
-            label: 'Tên người bán',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'authorPhone',
-            label: 'Số điện thoại người bán',
-            minWidth: 100,
-            align: 'center',
-        }
+        { id: 'name', label: 'Tên', minWidth: 170, align: 'center' },
+        { id: 'image', label: 'Hình ảnh', minWidth: 100, align: 'center' },
+        { id: 'type', label: 'Loại sản phẩm', align: 'center', minWidth: 100 },
+        { id: 'price', label: 'Giá', minWidth: 100, align: 'center' },
+        { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
+        { id: 'authorName', label: 'Tên người bán', minWidth: 100, align: 'center' },
+        { id: 'authorPhone', label: 'Số điện thoại người bán', minWidth: 100, align: 'center' },
+        { id: 'chat', label: 'Chat', minWidth: 100, align: 'center' } // New column for chat
     ];
 
     const filterData = () => {
@@ -168,7 +132,6 @@ const BuyProductTable = ({ data, getProductInfo }) => {
         changeStatusProduct(id, status);
     };
 
-
     useEffect(() => {
         getUser();
         setFilteredData(filterData());
@@ -187,6 +150,17 @@ const BuyProductTable = ({ data, getProductInfo }) => {
     const handleOrderDialogClose = () => {
         setOpenOrderDialog(false);
         setOrderDetails(null);
+    };
+
+    const handleChatOpen = (productId, author) => {
+        setIdUser(author)
+        setChatProductId(productId);
+        setChatOpen(true);
+    };
+
+    const handleChatClose = () => {
+        setChatOpen(false);
+        setChatProductId(null);
     };
 
     return (
@@ -230,7 +204,6 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-
                             {filteredData.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={columns.length}>
@@ -240,7 +213,6 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-
                                 filteredData.map((prod) => (
                                     <TableRow key={prod._id}>
                                         <TableCell component="th" scope="row" align="center">
@@ -263,66 +235,10 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                                 {prod.price} đ
                                             </Link>
                                         </TableCell>
-
-                                        <TableCell
-                                            align="center"
-                                        >
+                                        <TableCell align="center">
                                             <MuiLink component={Link} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
                                                 <Box display="flex" alignItems="center" justifyContent="center">
                                                     {prod.status}
-                                                    {/* <Tooltip title="Duyệt">
-                                                        {prod.status === 'Chờ duyệt' && isAdmin && (
-                                                            <PendingActionsIcon
-                                                                onClick={() => handleApproveProduct(prod._id, "Đang bán")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'orange',
-                                                                    '&:hover': {
-                                                                        color: 'darkorange',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Đang đăng bán">
-                                                        {prod.status === 'Đang bán' && (
-                                                            <ShoppingBasketIcon
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Đã bán">
-                                                        {prod.status === 'Đã bán' && (
-                                                            <DoneOutlinedIcon
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Hủy">
-                                                        {(prod.status !== 'Đã bán') && (
-                                                            <CancelIcon onClick={() => handleApproveProduct(prod._id, "Đã hủy")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'red',
-                                                                    '&:hover': {
-                                                                        color: 'darkred',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip> */}
                                                 </Box>
                                             </MuiLink>
                                         </TableCell>
@@ -333,10 +249,16 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link>
-                                                {prod.author ?  prod.author.phoneNumber : ''}
+                                                {prod.author ? prod.author.phoneNumber : ''}
                                             </Link>
                                         </TableCell>
-
+                                        <TableCell align="center">
+                                            <Tooltip title="Chat với người bán">
+                                                <Button onClick={() => handleChatOpen(prod._id, prod.author)}>
+                                                    <MdChat />
+                                                </Button>
+                                            </Tooltip>
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             )}
@@ -381,6 +303,14 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {/* Chat Dialog */}
+            <ChatDialog
+                open={chatOpen}
+                onClose={handleChatClose}
+                productId={chatProductId}
+                userId={idUser}
+            />
         </>
     );
 }

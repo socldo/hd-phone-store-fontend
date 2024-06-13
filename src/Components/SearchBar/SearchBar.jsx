@@ -43,7 +43,7 @@ const SearchBar = () => {
             <TextField
                 id="search"
                 type="search"
-                label="Search Products"
+                label="Tìm kiếm sản phẩm"
 
                 value={searchTerm}
                 onChange={handleSearch}

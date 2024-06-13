@@ -54,7 +54,7 @@ const Login = () => {
           navigate('/')
         }
         else {
-          toast.error("Something went wrong, Please try again", { autoClose: 500, theme: 'colored' })
+          toast.error("Có gì đó sai sai, Please try again", { autoClose: 500, theme: 'colored' })
           navigate('/')
         }
       }
@@ -144,7 +144,7 @@ const Login = () => {
           </Grid>
         </Box>
       </Box>
-      <CopyRight sx={{ mt: 8, mb: 4 }} />
+      {/* <CopyRight sx={{ mt: 8, mb: 4 }} /> */}
     </Container>
   )
 }
