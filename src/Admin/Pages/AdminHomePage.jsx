@@ -36,7 +36,6 @@ const AdminHomePage = () => {
                     <BasicTabs user={user} getUser={getUser} />
                 </Container>)}
             <CopyRight sx={{ mt: 8, mb: 10 }} />
-
         </>
     )
 }

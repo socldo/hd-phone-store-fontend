@@ -1,3 +1,4 @@
+// BuyProductTable.js
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdVisibility, MdChat } from 'react-icons/md';
@@ -30,7 +31,9 @@ import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import ChatDialog from '../ChatDialog'; // Ensure you have this component
+import ChatDialog from '../ChatDialog';
+import ReportDialog from '../ReportDialog';
+import ReportIcon from '@mui/icons-material/Report';
 
 const BuyProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
@@ -43,6 +46,9 @@ const BuyProductTable = ({ data, getProductInfo }) => {
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [idUser, setIdUser] = useState('');
+    const [reportOpen, setReportOpen] = useState(false);
+    const [reportUserId, setReportUserId] = useState(null);
+    const [reportProductId, setReportProductId] = useState(null);
 
     let authToken = localStorage.getItem("Authorization")
 
@@ -91,7 +97,8 @@ const BuyProductTable = ({ data, getProductInfo }) => {
         { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
         { id: 'authorName', label: 'Tên người bán', minWidth: 100, align: 'center' },
         { id: 'authorPhone', label: 'Số điện thoại người bán', minWidth: 100, align: 'center' },
-        { id: 'chat', label: 'Chat', minWidth: 100, align: 'center' } // New column for chat
+        { id: 'chat', label: 'Chat', minWidth: 100, align: 'center' }, // New column for chat
+        { id: 'report', label: 'Report người dùng', minWidth: 100, align: 'center' }, // New column for report
     ];
 
     const filterData = () => {
@@ -163,6 +170,18 @@ const BuyProductTable = ({ data, getProductInfo }) => {
         setChatProductId(null);
     };
 
+    const handleReportOpen = (userId, productId) => {
+        setReportUserId(userId);
+        setReportProductId(productId);
+        setReportOpen(true);
+    };
+
+    const handleReportClose = () => {
+        setReportOpen(false);
+        setReportUserId(null);
+        setReportProductId(null);
+    };
+
     return (
         <>
             <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 5, marginTop: 5 }}>
@@ -188,7 +207,7 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                     maxHeight: "500px"
                 }}
             >
-                <TableContainer sx={{ maxHeight: '500px' }}>
+                <TableContainer sx={{ maxHeight: '440px' }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead sx={{ position: 'sticky', top: 0 }}>
                             <TableRow>
@@ -259,6 +278,13 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                                 </Button>
                                             </Tooltip>
                                         </TableCell>
+                                        <TableCell align="center">
+                                            <Tooltip title="Report người bán">
+                                                <Button onClick={() => handleReportOpen(prod.author, prod._id)}>
+                                                    <ReportIcon></ReportIcon>
+                                                </Button>
+                                            </Tooltip>
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             )}
@@ -310,6 +336,14 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                 onClose={handleChatClose}
                 productId={chatProductId}
                 userId={idUser}
+            />
+
+            {/* Report Dialog */}
+            <ReportDialog
+                open={reportOpen}
+                onClose={handleReportClose}
+                userId={reportUserId}
+                productId={reportProductId}
             />
         </>
     );
