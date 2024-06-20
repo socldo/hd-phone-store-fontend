@@ -10,23 +10,27 @@ import {
     Container,
     InputAdornment,
     TextField,
+    IconButton,
 
 }
     from '@mui/material'
 import { Link } from 'react-router-dom';
-import { AiOutlineSearch } from 'react-icons/ai';
 import AddUser from '../AddUser';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { MdDelete, MdDone } from 'react-icons/md';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 const UserTable = ({ user, getUser }) => {
     const columns = [
         {
             id: 'name',
-            label: 'Name',
+            label: 'Tên',
             minWidth: 100,
             align: 'center',
         },
         {
             id: 'phone',
-            label: 'Phone Number',
+            label: 'Số điện thoại',
             align: 'center',
             minWidth: 100
         },
@@ -39,7 +43,14 @@ const UserTable = ({ user, getUser }) => {
         },
         {
             id: 'date',
-            label: 'Created On',
+            label: 'Thời gian tạo',
+            minWidth: 100,
+            align: 'center',
+
+        },
+        {
+            id: 'lock',
+            label: 'Xóa tài khoản',
             minWidth: 100,
             align: 'center',
 
@@ -63,6 +74,17 @@ const UserTable = ({ user, getUser }) => {
         return queries.every((query) => firstName.includes(query) || lastName.includes(query) || fullName.includes(query) || phoneNumber.includes(query) || email.includes(query));
     });
 
+    const handleDeleteUser = async (userId) => {
+  
+        try {
+            await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId.author}`);
+            toast.success('User deleted successfully');
+            // getReports(); // Refresh the reports
+        } catch (error) {
+            
+        }
+    
+    };
     return (
         <>
             <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 5, marginTop: 5 }}>
@@ -70,7 +92,7 @@ const UserTable = ({ user, getUser }) => {
                 <TextField
                     id="search"
                     type="search"
-                    label="Search Users"
+                    label="Tìm kiếm tài khoản"
                     onChange={handleSearchInputChange}
                     className="placeholder-animation"
                     sx={{ width: { xs: 350, sm: 500, md: 800 }, }}
@@ -85,7 +107,7 @@ const UserTable = ({ user, getUser }) => {
             </Container>
             <AddUser getUser={getUser} user={sortedUser} />
             <Paper
-                style={{overflow: "auto"}}>
+                style={{ overflow: "auto" }}>
                 <TableContainer component={Paper} sx={{ maxHeight: '400px' }}>
                     <Table stickyHeader aria-label="sticky table" >
                         <TableHead sx={{ position: 'sticky', top: 0 }}>
@@ -94,7 +116,7 @@ const UserTable = ({ user, getUser }) => {
                                     <TableCell
                                         key={column.id}
                                         align={column.align}
-                                        style={{ minWidth: column.minWidth, color: "#1976d2",fontWeight:'bold' }}
+                                        style={{ minWidth: column.minWidth, color: "#1976d2", fontWeight: 'bold' }}
                                     >
                                         {column.label}
                                     </TableCell>
@@ -134,7 +156,7 @@ const UserTable = ({ user, getUser }) => {
                                     <TableCell align="center" >
                                         <Link to={`/user/${info._id}`}>
                                             {
-                                                new Date(info.createdAt).toLocaleDateString('en-us', {
+                                                new Date(info.createdAt).toLocaleDateString('vi', {
                                                     weekday: "long", year: "numeric", month: "short", day: "numeric"
                                                 }
                                                 )
@@ -142,6 +164,11 @@ const UserTable = ({ user, getUser }) => {
                                             {" "}
                                             {new Date(info.createdAt).toLocaleTimeString('en-US')}
                                         </Link>
+                                    </TableCell>
+                                    <TableCell align="center" >
+                                        <IconButton onClick={() => handleDeleteUser(info._id)} color="secondary">
+                                            <MdDelete />
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
                             ))

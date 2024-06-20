@@ -59,6 +59,8 @@ export default function BasicTabs({ user, setUser, getUser }) {
     const [wishlist, setWishlist] = useState([]);
     const [paymentData, setPaymentData] = useState([]);
     const [report, setReportData] = useState([]);
+    const [users, setUsers] = useState([]);
+    
 
     useEffect(() => {
         getProductInfo();
@@ -72,6 +74,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
             setWishlist(data.wishlist);
             setPaymentData(data.payment);
             setReportData(data.report)
+            setUsers(data.user)
         } catch (error) {
             console.log(error);
 
@@ -124,7 +127,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
                     user={user} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <UserTable user={user} paymentData={paymentData} getUser={getUser} />
+                <UserTable user={users} paymentData={paymentData} getUser={getUser} />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <ProductTable data={products} setProducts={setProducts} getProductInfo={getProductInfo} />

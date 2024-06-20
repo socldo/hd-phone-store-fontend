@@ -26,15 +26,13 @@ const DesktopNavigation = () => {
   }, [authToken]);
 
   const getUser = async () => {
-    try {
+
       const { data } = await axios.get(`${process.env.REACT_APP_ADMIN_GET_ALL_USERS}`, {
         headers: { 'Authorization': authToken },
       });
       setIsPartner(data.isPartner);
       setIsAdmin(data.isAdmin);
-    } catch (error) {
-      toast.error(error.response.data, { autoClose: 500, theme: 'colored' });
-    }
+
   };
 
   return (

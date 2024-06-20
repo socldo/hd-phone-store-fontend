@@ -49,7 +49,7 @@ const Login = () => {
         const sendAuth = await axios.post(`${process.env.REACT_APP_LOGIN}`, { email: credentials.email, password: credentials.password })
         const receive = await sendAuth.data
         if (receive.success === true) {
-          toast.success("Login Successfully", { autoClose: 500, theme: 'colored' })
+          toast.success("Đăng nhập thành công", { autoClose: 500, theme: 'colored' })
           localStorage.setItem('Authorization', receive.authToken)
           navigate('/')
         }
@@ -120,7 +120,7 @@ const Login = () => {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label="Nhớ thông tin của tôi"
           />
           <Button
             type="submit"

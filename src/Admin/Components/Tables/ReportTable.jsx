@@ -34,30 +34,31 @@ const ReportTable = ({ reports, getReports }) => {
     };
 
     const handleDeleteUser = async (userId) => {
+  
         try {
-            await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId}}`);
+            await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId.author}`);
             toast.success('User deleted successfully');
-            getReports(); // Refresh the reports
+            // getReports(); // Refresh the reports
         } catch (error) {
-            toast.error('Failed to delete user');
+            
         }
+    
     };
 
     const handleIgnoreReport = async (reportId) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_DELETE_REPORT_USER}/${reportId.value}}`);
+
+            console.log('reportId', reportId);
+            await axios.delete(`${process.env.REACT_APP_DELETE_REPORT_USER}/${reportId}`);
             toast.success('Report ignored successfully');
-            getReports(); // Refresh the reports
-        } catch (error) {
-            toast.error('Failed to ignore report');
-        }
+            // getReports(); // Refresh the reports
+  
     };
 
     // const filteredReports = reports;
     // const sortedReports = reports.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const filteredReports = reports.filter((report) => {
-        const reporter = report.userId.lastName.toLowerCase();
+        const reporter = report.userId ? report.userId.lastName.toLowerCase() : '';
         const message = report.message.toLowerCase();
         const type = report.type.toLowerCase();
         const queries = searchQuery.toLowerCase().split(" ");
@@ -111,7 +112,7 @@ const ReportTable = ({ reports, getReports }) => {
                             ) : (
                                 filteredReports.map((report) => (
                                     <TableRow key={report._id}>
-                                        <TableCell align="center">{report.userId.lastName} {report.userId.firstName}</TableCell>
+                                        <TableCell align="center"> {report.userId ? report.userId.lastName : ''} {report.userId ? report.userId.firstName : ''}</TableCell>
                                         <TableCell align="center">{report.message}</TableCell>
                                         <TableCell align="center">{report.type}</TableCell>
                                         <TableCell align="center">
@@ -124,7 +125,7 @@ const ReportTable = ({ reports, getReports }) => {
                                             <IconButton onClick={() => handleIgnoreReport(report._id)} color="secondary">
                                                 <MdDelete />
                                             </IconButton>
-                                            <IconButton onClick={() => handleDeleteUser(report.userId)} color="primary">
+                                            <IconButton onClick={() => handleDeleteUser(report.productId)} color="primary">
                                                 <MdDone />
                                             </IconButton>
                                         </TableCell>

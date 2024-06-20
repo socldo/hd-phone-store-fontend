@@ -52,16 +52,16 @@ const AdminLogin = () => {
           })
         const receive = await sendAuth.data
         if (receive.success === true) {
-          toast.success("Login Successfully", { autoClose: 500, theme: 'colored' })
+          toast.success("Đăng nhập thành công", { autoClose: 500, theme: 'colored' })
           localStorage.setItem('Authorization', receive.authToken)
           navigate('/admin/home')
         } else {
-          toast.error("Invalid Credentials", { autoClose: 500, theme: 'colored' })
+          toast.error("Sai thông tin", { autoClose: 500, theme: 'colored' })
         }
       }
     }
     catch (error) {
-      toast.error("Invalid Credentials", { autoClose: 500, theme: 'colored' })
+      toast.error("Sai thông tin", { autoClose: 500, theme: 'colored' })
     }
 
   }
@@ -127,7 +127,7 @@ const AdminLogin = () => {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label="Nhớ thông tin của tôi"
           />
           <Button
             type="submit"
