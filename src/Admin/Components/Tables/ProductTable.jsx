@@ -33,7 +33,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ChatDialog from '../ChatDialog';
 
-const ProductTable = ({ data, getProductInfo }) => {
+const ProductTable = ({ data, setProducts, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openOrderDialog, setOpenOrderDialog] = useState(false);
@@ -44,6 +44,7 @@ const ProductTable = ({ data, getProductInfo }) => {
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [toLoad, setToload] = useState(1);
 
     let authToken = localStorage.getItem("Authorization");
 
@@ -75,7 +76,12 @@ const ProductTable = ({ data, getProductInfo }) => {
                 }
             });
             if (data) {
-                toast.success(`Cập nhật thành công`, { autoClose: 500, theme: 'colored' })
+                toast.success(`Cập nhật thành công`, { autoClose: 500, theme: 'colored' });
+                setProducts((prevProducts) =>
+                    prevProducts.map((product) =>
+                        product._id === id ? { ...product, status: status } : product
+                    )
+                );
             }
         } catch (error) {
             toast.error(error.response.data, { autoClose: 500, theme: "colored" });
@@ -169,13 +175,14 @@ const ProductTable = ({ data, getProductInfo }) => {
     };
 
     const handleApproveProduct = async (id, status) => {
+        setToload(true);
         changeStatusProduct(id, status);
     };
 
     useEffect(() => {
         getUser();
         setFilteredData(filterData());
-    }, [data, searchTerm]);
+    }, [data, searchTerm, toLoad]);
 
     const handleOrderDialogOpen = async (productId) => {
         try {
@@ -205,6 +212,7 @@ const ProductTable = ({ data, getProductInfo }) => {
         setChatOpen(false);
         setChatProductId(null);
     };
+
 
     return (
         <>

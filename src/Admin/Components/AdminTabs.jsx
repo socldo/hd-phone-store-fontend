@@ -12,6 +12,7 @@ import { FaShippingFast } from 'react-icons/fa'
 import { TbReportMoney } from 'react-icons/tb'
 import OrderTable from './Tables/OrderTable';
 import ReportTable from './Tables/ReportTable';
+import { MdOutlineReportGmailerrorred } from "react-icons/md";
 import Widget from './Widget';
 
 
@@ -110,7 +111,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
                     <Tab label={!isSmallScreen && "Người dùng"} {...a11yProps(1)} iconPosition='start' icon={<CgProfile fontSize={20} />} />
                     <Tab label={!isSmallScreen && "Sản phẩm"} {...a11yProps(2)} iconPosition='start' icon={<AiOutlineShoppingCart fontSize={20} />} />
                     <Tab label={!isSmallScreen && "Đơn hàng"} {...a11yProps(3)} iconPosition='start' icon={<FaShippingFast fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Report"} {...a11yProps(3)} iconPosition='start' icon={<FaShippingFast fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Report"} {...a11yProps(3)} iconPosition='start' icon={<MdOutlineReportGmailerrorred fontSize={20} />} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0} >
@@ -126,7 +127,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
                 <UserTable user={user} paymentData={paymentData} getUser={getUser} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <ProductTable data={products} getProductInfo={getProductInfo} />
+                <ProductTable data={products} setProducts={setProducts} getProductInfo={getProductInfo} />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <OrderTable orders={paymentData} />

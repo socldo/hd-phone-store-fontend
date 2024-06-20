@@ -29,7 +29,7 @@ const AddProduct = ({ getProductInfo, data }) => {
             setUserId(data.phoneNumber);
             setIsAdmin(data.isAdmin);
             setIsPartner(data.isPartner);
-            setAuthorId(data._id)
+            setAuthorId(data._id);
         } catch (error) {
             toast.error(error.response.data, { autoClose: 500, theme: "colored" });
             throw error;
@@ -115,6 +115,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                     // getProductInfo() 
 
                     toast.success(`Thêm thành công sản phẩm ${productInfo.name}`, { autoClose: 500, theme: 'colored' })
+                    getProductInfo();
                     setProductInfo({
                         name: "",
                         image: "",

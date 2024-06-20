@@ -35,7 +35,7 @@ const ReportTable = ({ reports, getReports }) => {
 
     const handleDeleteUser = async (userId) => {
         try {
-            await axios.delete(`/api/users/${userId}`);
+            await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId}}`);
             toast.success('User deleted successfully');
             getReports(); // Refresh the reports
         } catch (error) {
@@ -45,7 +45,7 @@ const ReportTable = ({ reports, getReports }) => {
 
     const handleIgnoreReport = async (reportId) => {
         try {
-            await axios.delete(`/api/reports/${reportId}`);
+            await axios.delete(`${process.env.REACT_APP_DELETE_REPORT_USER}/${reportId.value}}`);
             toast.success('Report ignored successfully');
             getReports(); // Refresh the reports
         } catch (error) {
@@ -121,10 +121,10 @@ const ReportTable = ({ reports, getReports }) => {
                                             {new Date(report.createdAt).toLocaleTimeString('en-US')}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <IconButton onClick={() => handleDeleteUser(report.userId)} color="secondary">
+                                            <IconButton onClick={() => handleIgnoreReport(report._id)} color="secondary">
                                                 <MdDelete />
                                             </IconButton>
-                                            <IconButton onClick={() => handleIgnoreReport(report._id)} color="primary">
+                                            <IconButton onClick={() => handleDeleteUser(report.userId)} color="primary">
                                                 <MdDone />
                                             </IconButton>
                                         </TableCell>
