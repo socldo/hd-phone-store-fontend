@@ -66,7 +66,8 @@ const AdminRegister = () => {
             email: credentials.email,
             phoneNumber: credentials.phoneNumber,
             password: credentials.password,
-            key: credentials.key
+            key: credentials.key,
+            isAdmin: true
           }
         );
         const receive = await sendAuth.data

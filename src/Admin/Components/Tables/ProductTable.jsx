@@ -339,7 +339,7 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                                         )}
                                                     </Tooltip>
                                                     <Tooltip title="Bán xong">
-                                                        {(prod.status === 'Đang bán' && !isAdmin && !isPartner) && (
+                                                        {(prod.status === 'Đang bán' && (isAdmin || isPartner)) && (
                                                             <DoneOutlinedIcon onClick={() => handleApproveProduct(prod._id, "Đã bán")}
                                                                 sx={{
                                                                     ml: 1,

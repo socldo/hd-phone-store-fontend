@@ -27,11 +27,11 @@ const DesktopNavigation = () => {
 
   const getUser = async () => {
 
-      const { data } = await axios.get(`${process.env.REACT_APP_ADMIN_GET_ALL_USERS}`, {
-        headers: { 'Authorization': authToken },
-      });
-      setIsPartner(data.isPartner);
-      setIsAdmin(data.isAdmin);
+    const { data } = await axios.get(`${process.env.REACT_APP_ADMIN_GET_ALL_USERS}`, {
+      headers: { 'Authorization': authToken },
+    });
+    setIsPartner(data.isPartner);
+    setIsAdmin(data.isAdmin);
 
   };
 
@@ -46,9 +46,9 @@ const DesktopNavigation = () => {
           </div>
           <div className="nav-items">
             <ul className="nav-items">
-              <li className="nav-links">
+              {!isAdmin && <li className="nav-links">
                 <NavLink to="/">Trang chủ</NavLink>
-              </li>
+              </li>}
               {isPartner && !isAdmin && (
                 <li className="nav-links">
                   <Tooltip title="Post">

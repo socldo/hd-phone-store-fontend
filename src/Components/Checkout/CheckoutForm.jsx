@@ -5,7 +5,7 @@ import { BsFillCartCheckFill } from 'react-icons/bs'
 import { MdUpdate } from 'react-icons/md'
 import axios from 'axios'
 import { ContextFunction } from '../../Context/Context'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Router, useNavigate } from 'react-router-dom'
 import { profile } from '../../Assets/Images/Image'
 import { toast } from 'react-toastify'
 import CopyRight from '../CopyRight/CopyRight'
@@ -58,6 +58,7 @@ const CheckoutForm = () => {
             userDetails.phoneNumber = data.phoneNumber
             userDetails.address = data.address
             userDetails.city = data.city
+
         } catch (error) {
             console.log(error);
         }
@@ -111,6 +112,10 @@ const CheckoutForm = () => {
                 // };
                 // const razor = new window.Razorpay(options);
                 // razor.open();
+                if(data) {
+                    toast.success("Đặt hàng thành công", { autoClose: 500, theme: "colored" })
+                } 
+                navigate('/order')
             } catch (error) {
                 console.log(error);
             }

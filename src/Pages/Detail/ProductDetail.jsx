@@ -201,21 +201,20 @@ const ProductDetail = () => {
                                     }
                                 </div>
                             </Typography>
-                            <Chip
-                                label={product.price > 1000 ? "Trợ giá lên đén 9%" : "Trợ giá lên đến 38%"}
+                            {/* <Chip
+                                label={product.price > 1000}
                                 variant="outlined"
                                 sx={{ background: '#1976d2', color: 'white', width: '150px', fontWeight: 'bold' }}
                                 avatar={<TbDiscount2 color='white' />}
 
 
-                            />
+                            /> */}
                             <div style={{ display: 'flex', gap: 20 }}>
-                                <Typography variant="h6" color="red"><s> {product.price > 1000 ? product.price + 1000 : product.price + 300} đ</s> </Typography>
                                 <Typography variant="h6" color="primary">
                                     {product.price} đ
                                 </Typography>
                             </div>
-                            <Box
+                            {/* <Box
                                 sx={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -224,13 +223,13 @@ const ProductDetail = () => {
                                         m: 1,
                                     },
                                 }}
-                            >
-                                <ButtonGroup variant="outlined" aria-label="outlined button group">
+                            > */}
+                                {/* <ButtonGroup variant="outlined" aria-label="outlined button group">
                                     <Button onClick={increaseQuantity}>+</Button>
                                     <Button>{productQuantity}</Button>
                                     <Button onClick={decreaseQuantity}>-</Button>
-                                </ButtonGroup>
-                            </Box>
+                                </ButtonGroup> */}
+                            {/* </Box> */}
                             <Rating name="read-only" value={Math.round(product.rating)} readOnly precision={0.5} />
                             <div style={{ display: 'flex' }} >
                                 <Tooltip title='Add To Cart'>
