@@ -9,8 +9,6 @@ import { BiFilterAlt } from 'react-icons/bi';
 import ProductCard from '../Components/Card/Product Card/ProductCard'
 import CopyRight from '../Components/CopyRight/CopyRight'
 
-
-
 const SingleCategory = () => {
 
     const [productData, setProductData] = useState([])
@@ -35,10 +33,7 @@ const SingleCategory = () => {
             console.log(error);
         }
     }
-
     const productFilter = ['Tất cả', 'Giá từ thấp đến cao', 'Giá từ cao đến thấp', 'Đánh giá cao', 'Đánh giá thấp']
-
-
     const handleChange = (e) => {
         setFilterOption(e.target.value)
         setTitle(e.target.value)
@@ -94,7 +89,6 @@ const SingleCategory = () => {
                     {productData.map(prod => (
                         <Link to={`/Detail/type/${cat}/${prod._id}`} key={prod._id}>
                             <ProductCard prod={prod} />
-
                         </Link>
                     ))}
                 </Container>

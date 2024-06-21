@@ -13,7 +13,7 @@ const Carousel = () => {
 
         <Link to={`product/type/${item.name}`} key={item.name} >
             <div className="item" style={{ marginTop: 10 }} >
-                <img src={item.img} loading='lazy' alt={item.name} style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
+                <img src={item.img} loading='lazy' alt={item.name} style={{ height: '90%', width: '90%', objectFit: 'contain' }} />
             </div>
         </Link>
     ))

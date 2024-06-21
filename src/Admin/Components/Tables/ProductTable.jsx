@@ -21,7 +21,7 @@ import {
     Box,
     Icon,
     Link as MuiLink,
-    Tooltip
+    Tooltip, Rating
 }
     from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -31,6 +31,7 @@ import { toast } from 'react-toastify';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
+import {formatCurrency} from "../../../Helpers/FormatCurrency";
 const ProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -60,8 +61,6 @@ const ProductTable = ({ data, getProductInfo }) => {
             throw error;
         }
     }
-
-
     const changeStatusProduct = async (id, status) => {
         try {
             const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_CHANGE_STATUS}`,
@@ -259,12 +258,12 @@ const ProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.price} đ
+                                                {formatCurrency(prod.price)}
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.rating}
+                                                <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />
                                             </Link>
                                         </TableCell>
                                         <TableCell
@@ -351,7 +350,7 @@ const ProductTable = ({ data, getProductInfo }) => {
                                         Quantity: {order.quantity}
                                     </Typography>
                                     <Typography variant="body1">
-                                        Total Price: {order.totalPrice} đ
+                                        Total Price: {formatCurrency(order.totalPrice)}
                                     </Typography>
                                 </Box>
                             ))}

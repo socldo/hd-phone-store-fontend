@@ -1,6 +1,7 @@
 import { Card, CardActionArea, CardActions, Rating, CardContent, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import styles from './ProductCard.module.css'
+import {formatCurrency} from "../../../Helpers/FormatCurrency";
 
 export default function ProductCard({ prod }) {
     return (
@@ -17,7 +18,7 @@ export default function ProductCard({ prod }) {
             </CardActionArea>
             <CardActions style={{ display: "flex", justifyContent: "space-between", width: '100%' }}>
                 <Typography variant="h6" color="#be1e2d">
-                    {prod.price} đ
+                    {formatCurrency(prod.price)}
                 </Typography>
                 <Typography >
                     <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />

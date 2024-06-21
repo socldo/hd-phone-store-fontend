@@ -33,15 +33,15 @@ const HomePage = () => {
 
     return (
         <>
-            <Container maxWidth='xl' style={{ display: 'flex', justifyContent: "center", padding: 0, flexDirection: "column", marginBottom: 70 }}>
+            <Container maxWidth='xl' style={{ maxWidth: '1200px', margin:'auto', display: 'flex', justifyContent: "center", padding: 0, flexDirection: "column", marginBottom: 70 }}>
                 <Box padding={1}>
                     <Carousel />
                 </Box>
-                <Container style={{ marginTop: 90, display: "flex", justifyContent: 'center' }}>
+                <Container style={{display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                     <SearchBar />
                 </Container>
-                <Typography variant='h3' sx={{ textAlign: 'center', marginTop: 10, color: '#1976d2', fontWeight: 'bold' }}>Danh mục</Typography>
-                <Container maxWidth='xl' style={{ marginTop: 90, display: "flex", justifyContent: 'center', flexGrow: 1, flexWrap: 'wrap', gap: 20, }}>
+                <Typography variant='h3' sx={{ textAlign: 'center', marginTop: "10px", color: '#1976d2', fontWeight: 'bold' }}>Danh mục</Typography>
+                <Container maxWidth='xl' style={{ marginTop: "20px", display: "flex", justifyContent: 'center', flexGrow: 1, flexWrap: 'wrap', gap: 20, }}>
                     {
                         BannerData.map(data => (
                             <CategoryCard data={data} key={data.img} />
