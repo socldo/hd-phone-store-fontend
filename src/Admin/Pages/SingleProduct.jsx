@@ -93,11 +93,11 @@ const SingleProduct = () => {
 
                 }
                 else {
-                    toast.error("Something went wrong", { autoClose: 500, })
+                    toast.error("Có gì đó sai sai", { autoClose: 500, })
                 }
 
             } catch (error) {
-                toast.error("Something went wrong", { autoClose: 500, })
+                toast.error("Có gì đó sai sai", { autoClose: 500, })
 
             }
         }
@@ -115,7 +115,7 @@ const SingleProduct = () => {
                 navigate(-1);
             }
             else {
-                toast.error("Something went wrong", { autoClose: 500, theme: 'colored' })
+                toast.error("Có gì đó sai sai", { autoClose: 500, theme: 'colored' })
             }
 
         } catch (error) {

@@ -28,20 +28,21 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             {formatCurrency(total - shippingCoast)}
                         </Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }} >
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }} >
                         <Typography variant="body1" component="div" color='primary'>
                             Tiền ship
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
                             {formatCurrency(shippingCoast)}
                         </Typography>
-                    </Box>
+                    </Box> */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
                         <Typography variant="body1" component="div" color='primary'>
                             Tổng cộng
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
                             {formatCurrency(total)}
+
                         </Typography>
                     </Box>
                 </Grid>

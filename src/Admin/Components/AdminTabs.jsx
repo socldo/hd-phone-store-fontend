@@ -11,6 +11,8 @@ import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaShippingFast } from 'react-icons/fa'
 import { TbReportMoney } from 'react-icons/tb'
 import OrderTable from './Tables/OrderTable';
+import ReportTable from './Tables/ReportTable';
+import { MdOutlineReportGmailerrorred } from "react-icons/md";
 import Widget from './Widget';
 
 
@@ -56,6 +58,9 @@ export default function BasicTabs({ user, setUser, getUser }) {
     const [cart, setCart] = useState([]);
     const [wishlist, setWishlist] = useState([]);
     const [paymentData, setPaymentData] = useState([]);
+    const [report, setReportData] = useState([]);
+    const [users, setUsers] = useState([]);
+    
 
     useEffect(() => {
         getProductInfo();
@@ -68,6 +73,8 @@ export default function BasicTabs({ user, setUser, getUser }) {
             setCart(data.cart);
             setWishlist(data.wishlist);
             setPaymentData(data.payment);
+            setReportData(data.report)
+            setUsers(data.user)
         } catch (error) {
             console.log(error);
 
@@ -97,13 +104,17 @@ export default function BasicTabs({ user, setUser, getUser }) {
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                     <Widget numbers={paymentData.length} heading='Đơn hàng' color='#1f77b4  ' icon={<FaShippingFast />} />
                 </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
+                    <Widget numbers={report.length} heading='Report' color='#1f77b4  ' icon={<FaShippingFast />} />
+                </Grid>
             </Grid>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" style={{ overflowX: "a" }} >
-                    <Tab label={!isSmallScreen && 'Statistics'}  {...a11yProps(0)} iconPosition='start' icon={<VscGraph fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Users"} {...a11yProps(1)} iconPosition='start' icon={<CgProfile fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Products"} {...a11yProps(2)} iconPosition='start' icon={<AiOutlineShoppingCart fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Orders"} {...a11yProps(3)} iconPosition='start' icon={<FaShippingFast fontSize={20} />} />
+                    <Tab label={!isSmallScreen && 'Thống kế'}  {...a11yProps(0)} iconPosition='start' icon={<VscGraph fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Người dùng"} {...a11yProps(1)} iconPosition='start' icon={<CgProfile fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Sản phẩm"} {...a11yProps(2)} iconPosition='start' icon={<AiOutlineShoppingCart fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Đơn hàng"} {...a11yProps(3)} iconPosition='start' icon={<FaShippingFast fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Report"} {...a11yProps(3)} iconPosition='start' icon={<MdOutlineReportGmailerrorred fontSize={20} />} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0} >
@@ -116,13 +127,16 @@ export default function BasicTabs({ user, setUser, getUser }) {
                     user={user} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <UserTable user={user} paymentData={paymentData} getUser={getUser} />
+                <UserTable user={users} paymentData={paymentData} getUser={getUser} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <ProductTable data={products} getProductInfo={getProductInfo} />
+                <ProductTable data={products} setProducts={setProducts} getProductInfo={getProductInfo} />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <OrderTable orders={paymentData} />
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+                <ReportTable reports={report} />
             </TabPanel>
         </Box >
     );

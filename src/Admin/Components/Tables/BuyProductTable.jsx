@@ -1,3 +1,4 @@
+// BuyProductTable.js
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdVisibility, MdChat } from 'react-icons/md';
@@ -19,12 +20,9 @@ import {
     Button,
     Typography,
     Box,
-    Icon,
     Link as MuiLink,
-    Tooltip, Rating
-}
-    from '@mui/material';
-
+    Tooltip
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddProduct from '../AddProduct';
 import axios from 'axios';
@@ -32,24 +30,27 @@ import { toast } from 'react-toastify';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {formatCurrency} from "../../../Helpers/FormatCurrency";
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ChatDialog from '../ChatDialog';
+import ReportDialog from '../ReportDialog';
+import ReportIcon from '@mui/icons-material/Report';
 
-const ProductTable = ({ data, setProducts, getProductInfo }) => {
+const BuyProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [openOrderDialog, setOpenOrderDialog] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
-    const [chatProductId, setChatProductId] = useState(null);
     const [chatOpen, setChatOpen] = useState(false);
-
+    const [chatProductId, setChatProductId] = useState(null);
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
-    const [toLoad, setToload] = useState(1);
+    const [idUser, setIdUser] = useState('');
+    const [reportOpen, setReportOpen] = useState(false);
+    const [reportUserId, setReportUserId] = useState(null);
+    const [reportProductId, setReportProductId] = useState(null);
 
-    let authToken = localStorage.getItem("Authorization");
+    let authToken = localStorage.getItem("Authorization")
 
     const getUser = async () => {
         try {
@@ -79,13 +80,9 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                 }
             });
             if (data) {
-                toast.success(`Cập nhật thành công`, { autoClose: 500, theme: 'colored' });
-                setProducts((prevProducts) =>
-                    prevProducts.map((product) =>
-                        product._id === id ? { ...product, status: status } : product
-                    )
-                );
+                toast.success(`Cập nhật thành công`, { autoClose: 500, theme: 'colored' })
             }
+
         } catch (error) {
             toast.error(error.response.data, { autoClose: 500, theme: "colored" });
             throw error;
@@ -93,54 +90,15 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
     }
 
     const columns = [
-        {
-            id: 'name',
-            label: 'Tên',
-            minWidth: 170,
-            align: 'center',
-        },
-        {
-            id: 'image',
-            label: 'Hình ảnh',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'type',
-            label: 'Loại sản phẩm',
-            align: 'center',
-            minWidth: 100
-        },
-        {
-            id: 'price',
-            label: 'Giá',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'rating',
-            label: 'Đánh giá',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'status',
-            label: 'Trạng thái',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'orders',
-            label: 'Đơn hàng',
-            minWidth: 100,
-            align: 'center',
-        },
-        {
-            id: 'chat',
-            label: 'Trò chuyện',
-            minWidth: 100,
-            align: 'center',
-        }
+        { id: 'name', label: 'Tên', minWidth: 170, align: 'center' },
+        { id: 'image', label: 'Hình ảnh', minWidth: 100, align: 'center' },
+        { id: 'type', label: 'Loại sản phẩm', align: 'center', minWidth: 100 },
+        { id: 'price', label: 'Giá', minWidth: 100, align: 'center' },
+        { id: 'status', label: 'Trạng thái', minWidth: 100, align: 'center' },
+        { id: 'authorName', label: 'Tên người bán', minWidth: 100, align: 'center' },
+        { id: 'authorPhone', label: 'Số điện thoại người bán', minWidth: 100, align: 'center' },
+        { id: 'chat', label: 'Chat', minWidth: 100, align: 'center' }, // New column for chat
+        { id: 'report', label: 'Report người dùng', minWidth: 100, align: 'center' }, // New column for report
     ];
 
     const filterData = () => {
@@ -178,22 +136,17 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
     };
 
     const handleApproveProduct = async (id, status) => {
-        setToload(true);
         changeStatusProduct(id, status);
     };
 
     useEffect(() => {
         getUser();
         setFilteredData(filterData());
-    }, [data, searchTerm, toLoad]);
+    }, [data, searchTerm]);
 
     const handleOrderDialogOpen = async (productId) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_ORDERED_PRODUCT}/${productId}`, {
-                headers: {
-                    'Authorization': authToken
-                }
-            });
+            const response = await axios.get(`/api/orders/${productId}`);
             setOrderDetails(response.data);
             setOpenOrderDialog(true);
         } catch (error) {
@@ -206,7 +159,8 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
         setOrderDetails(null);
     };
 
-    const handleChatOpen = (productId) => {
+    const handleChatOpen = (productId, author) => {
+        setIdUser(author)
         setChatProductId(productId);
         setChatOpen(true);
     };
@@ -216,6 +170,17 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
         setChatProductId(null);
     };
 
+    const handleReportOpen = (userId, productId) => {
+        setReportUserId(userId);
+        setReportProductId(productId);
+        setReportOpen(true);
+    };
+
+    const handleReportClose = () => {
+        setReportOpen(false);
+        setReportUserId(null);
+        setReportProductId(null);
+    };
 
     return (
         <>
@@ -236,14 +201,13 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                     }}
                 />
             </Container>
-            <AddProduct getProductInfo={getProductInfo} data={data} />
             <Paper
                 style={{
                     overflow: "auto",
                     maxHeight: "500px"
                 }}
             >
-                <TableContainer sx={{ maxHeight: '500px' }}>
+                <TableContainer sx={{ maxHeight: '440px' }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead sx={{ position: 'sticky', top: 0 }}>
                             <TableRow>
@@ -277,7 +241,7 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                <img src={prod.image[0]} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
+                                                <img src={prod.image} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
@@ -287,100 +251,39 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {formatCurrency(prod.price)}
+                                                {prod.price} đ
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell
-                                            align="center"
-                                        >
                                             <MuiLink component={Link} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
                                                 <Box display="flex" alignItems="center" justifyContent="center">
                                                     {prod.status}
-                                                    <Tooltip title="Duyệt">
-                                                        {prod.status === 'Chờ duyệt' && isAdmin && (
-                                                            <PendingActionsIcon
-                                                                onClick={() => handleApproveProduct(prod._id, "Đang bán")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'orange',
-                                                                    '&:hover': {
-                                                                        color: 'darkorange',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Đang đăng bán">
-                                                        {prod.status === 'Đang bán' && (
-                                                            <ShoppingBasketIcon
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Đã bán">
-                                                        {prod.status === 'Đã bán' && (
-                                                            <DoneOutlinedIcon
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Bán xong">
-                                                        {(prod.status === 'Đang bán' && (isAdmin || isPartner)) && (
-                                                            <DoneOutlinedIcon onClick={() => handleApproveProduct(prod._id, "Đã bán")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
-                                                    <Tooltip title="Hủy">
-                                                        {(prod.status !== 'Đã bán') && (
-                                                            <CancelIcon onClick={() => handleApproveProduct(prod._id, "Đã hủy")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'red',
-                                                                    '&:hover': {
-                                                                        color: 'darkred',
-                                                                    },
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Tooltip>
                                                 </Box>
                                             </MuiLink>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MdVisibility
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleOrderDialogOpen(prod._id)}
-                                            />
+                                            <Link>
+                                                {prod.author ? prod.author.lastName : ''}
+                                            </Link>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MdChat
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleChatOpen(prod._id)}
-                                            />
+                                            <Link>
+                                                {prod.author ? prod.author.phoneNumber : ''}
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Tooltip title="Chat với người bán">
+                                                <Button onClick={() => handleChatOpen(prod._id, prod.author)}>
+                                                    <MdChat />
+                                                </Button>
+                                            </Tooltip>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Tooltip title="Report người bán">
+                                                <Button onClick={() => handleReportOpen(prod.author, prod._id)}>
+                                                    <ReportIcon></ReportIcon>
+                                                </Button>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
                                 ))
@@ -395,9 +298,7 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                 open={openOrderDialog}
                 onClose={handleOrderDialogClose}
             >
-                <DialogTitle sx={{ textAlign: "center", fontWeight: 'bold', color: "#1976d2" }}>
-                    Danh sách đơn đặt hàng
-                </DialogTitle>
+                <DialogTitle sx={{ textAlign: "center", fontWeight: 'bold', color: "#1976d2" }}>Chi tiết đơn hàng</DialogTitle>
                 <DialogContent>
                     {orderDetails ? (
                         <Box>
@@ -413,37 +314,11 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         Quantity: {order.quantity}
                                     </Typography>
                                     <Typography variant="body1">
-                                        Total Price: {formatCurrency(order.totalPrice)}
+                                        Total Price: {order.totalPrice} đ
                                     </Typography>
                                 </Box>
                             ))}
                         </Box>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Tên</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Hình ảnh</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Giá</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Email người đặt</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Số điện thoại người đặt</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', color: "#1976d2" }}>Tên người đặt</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {orderDetails.map((order, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{order.productId.name}</TableCell>
-                                        <TableCell>
-                                            <img src={order.productId.image} alt={order.productId.name} style={{ maxWidth: '100px' }} />
-                                        </TableCell>
-                                        <TableCell>{order.productId.price}</TableCell>
-                                        <TableCell>{order.user.email}</TableCell>
-                                        <TableCell>{order.user.phoneNumber}</TableCell>
-                                        <TableCell>{order.user.firstName} {order.user.lastName}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
                     ) : (
                         <Typography variant="body1">Loading...</Typography>
                     )}
@@ -460,10 +335,18 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                 open={chatOpen}
                 onClose={handleChatClose}
                 productId={chatProductId}
-                userId={userId}
+                userId={idUser}
+            />
+
+            {/* Report Dialog */}
+            <ReportDialog
+                open={reportOpen}
+                onClose={handleReportClose}
+                userId={reportUserId}
+                productId={reportProductId}
             />
         </>
     );
 }
 
-export default ProductTable;
+export default BuyProductTable;

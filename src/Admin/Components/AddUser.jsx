@@ -73,9 +73,9 @@ const AddUser = ({ getUser }) => {
     return (
         <>
             <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', margin: "20px 0" }} >
-                <Typography variant='h6' textAlign='center' color="#1976d2" fontWeight="bold">Add new user
+                <Typography variant='h6' textAlign='center' color="#1976d2" fontWeight="bold">Thêm tài khoản mới
                 </Typography>
-                <Button variant='contained' endIcon={<MdPersonAddAlt1 />} onClick={handleClickOpen}>Add</Button>
+                <Button variant='contained' endIcon={<MdPersonAddAlt1 />} onClick={handleClickOpen}>Thêm</Button>
             </Box>
             <Divider sx={{ mb: 5 }} />
             <Dialog
@@ -83,7 +83,7 @@ const AddUser = ({ getUser }) => {
                 onClose={handleClose}
                 keepMounted
                 TransitionComponent={Transition}>
-                <DialogTitle sx={{ textAlign: "center", fontWeight: 'bold', color: "#1976d2" }}> Add new user</DialogTitle>
+                <DialogTitle sx={{ textAlign: "center", fontWeight: 'bold', color: "#1976d2" }}> Thêm tài khoản mới</DialogTitle>
                 <DialogContent>
                     <Box onSubmit={handleSubmit} sx={{ mt: 2 }}>
                         <Grid container spacing={2}>
@@ -151,8 +151,8 @@ const AddUser = ({ getUser }) => {
                             </Grid>
                         </Grid>
                         <DialogActions sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mt: 2 }}>
-                            <Button fullWidth variant='contained' color='error' onClick={handleClose} endIcon={<MdOutlineCancel />}>Cancel</Button>
-                            <Button type="submit" onClick={handleSubmit} fullWidth variant="contained" endIcon={<MdPersonAddAlt1 />}>Add</Button>
+                            <Button fullWidth variant='contained' color='error' onClick={handleClose} endIcon={<MdOutlineCancel />}>Hủy</Button>
+                            <Button type="submit" onClick={handleSubmit} fullWidth variant="contained" endIcon={<MdPersonAddAlt1 />}>Thêm</Button>
                         </DialogActions>
                     </Box >
                 </DialogContent>

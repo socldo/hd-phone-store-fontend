@@ -40,20 +40,20 @@ const Register = () => {
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     try {
       if (!credentials.email && !credentials.firstName && !credentials.password && !credentials.phoneNumber && !credentials.lastName) {
-        toast.error("All fields are required", { autoClose: 500, theme: 'colored' })
+        toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
       }
       else if (credentials.firstName.length < 1 || credentials.lastName.length < 1) {
-        toast.error("Please enter valid name", { autoClose: 500, theme: 'colored' })
+        toast.error("Tên không hợp lệ", { autoClose: 500, theme: 'colored' })
       }
       else if (emailRegex.test(credentials.email) === false) {
-        toast.error("Please enter valid email", { autoClose: 500, theme: 'colored' })
+        toast.error("Vui lòng điền email hợp lệ", { autoClose: 500, theme: 'colored' })
       }
       else if (phoneRegex.test(credentials.phoneNumber) === false) {
-        toast.error("Please enter a valid phone number", { autoClose: 500, theme: 'colored' })
+        toast.error("Vui lòng điền số điện thoại hợp lệ", { autoClose: 500, theme: 'colored' })
         console.log(1);
       }
-      else if (credentials.password.length < 5) {
-        toast.error("Please enter password with more than 5 characters", { autoClose: 500, theme: 'colored' })
+      else if (credentials.password.length < 4) {
+        toast.error("Mật khẩu phải nhiều hơn 4 kí tự", { autoClose: 500, theme: 'colored' })
       }
       else if (credentials.email && credentials.firstName && credentials.lastName && credentials.phoneNumber && credentials.password) {
         try {
@@ -215,7 +215,7 @@ const Register = () => {
             </Grid>
           </Box>
         </Box>
-        <CopyRight sx={{ mt: 5 }} />
+        {/* <CopyRight sx={{ mt: 5 }} /> */}
       </Container>
     </>
   )
