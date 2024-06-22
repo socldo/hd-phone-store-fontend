@@ -53,9 +53,8 @@ const ProductDetail = () => {
     const addToCart = async (product) => {
         if (setProceed) {
             try {
-
-
-                const { data } = await axios.post(`${process.env.REACT_APP_ADD_CART}`, { _id: product._id, quantity: productQuantity }, {
+                console.log( { _id: product._id, quantity: productQuantity, author: product.author });
+                const { data } = await axios.post(`${process.env.REACT_APP_ADD_CART}`, { _id: product._id, quantity: productQuantity, author: product.author }, {
                     headers: {
                         'Authorization': authToken
                     }
@@ -74,6 +73,7 @@ const ProductDetail = () => {
     const addToWhishList = async (product) => {
         if (setProceed) {
             try {
+                console.log(`${process.env.REACT_APP_ADD_WISHLIST}`, { _id: product._id });
                 const { data } = await axios.post(`${process.env.REACT_APP_ADD_WISHLIST}`, { _id: product._id }, {
                     headers: {
                         'Authorization': authToken
@@ -95,7 +95,7 @@ const ProductDetail = () => {
     const shareProduct = (product, cat, id) => {
         const url = `https://e-shopit.vercel.app/Detail/type/${cat}/${id}`;
         const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    
+
         // Kiểm tra xem thiết bị có hỗ trợ chia sẻ web không
         if (navigator.share) {
             navigator.share({
@@ -105,7 +105,7 @@ const ProductDetail = () => {
             }).then(() => {
                 console.log('Thanks for sharing!');
             }).catch((error) => {
-                console.error('Something went wrong sharing the product', error);
+                console.error('Có gì đó sai sai sharing the product', error);
             });
         } else {
             // Nếu không hỗ trợ chia sẻ web, mở cửa sổ chia sẻ Facebook
@@ -114,7 +114,7 @@ const ProductDetail = () => {
     };
 
     const getSimilarProducts = async () => {
-        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat })
+        const { data } = await axios.post(`${process.env.REACT_APP_PRODUCT_TYPE}`, { userType: cat, status: "Đang bán" })
         setSimilarProduct(data)
     }
     let data = [];
@@ -201,21 +201,20 @@ const ProductDetail = () => {
                                     }
                                 </div>
                             </Typography>
-                            <Chip
-                                label={product.price > 1000 ? "Trợ giá lên đén 9%" : "Trợ giá lên đến 38%"}
+                            {/* <Chip
+                                label={product.price > 1000}
                                 variant="outlined"
                                 sx={{ background: '#1976d2', color: 'white', width: '150px', fontWeight: 'bold' }}
                                 avatar={<TbDiscount2 color='white' />}
 
 
-                            />
+                            /> */}
                             <div style={{ display: 'flex', gap: 20 }}>
-                                <Typography variant="h6" color="red"><s> {product.price > 1000 ? product.price + 1000 : product.price + 300} đ</s> </Typography>
                                 <Typography variant="h6" color="primary">
                                     {product.price} đ
                                 </Typography>
                             </div>
-                            <Box
+                            {/* <Box
                                 sx={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -224,13 +223,13 @@ const ProductDetail = () => {
                                         m: 1,
                                     },
                                 }}
-                            >
-                                <ButtonGroup variant="outlined" aria-label="outlined button group">
+                            > */}
+                                {/* <ButtonGroup variant="outlined" aria-label="outlined button group">
                                     <Button onClick={increaseQuantity}>+</Button>
                                     <Button>{productQuantity}</Button>
                                     <Button onClick={decreaseQuantity}>-</Button>
-                                </ButtonGroup>
-                            </Box>
+                                </ButtonGroup> */}
+                            {/* </Box> */}
                             <Rating name="read-only" value={Math.round(product.rating)} readOnly precision={0.5} />
                             <div style={{ display: 'flex' }} >
                                 <Tooltip title='Add To Cart'>
@@ -238,7 +237,7 @@ const ProductDetail = () => {
                                 </Tooltip>
                                 <Tooltip title='Add To Wishlist'>
                                     <Button style={{ marginLeft: 10, }} size='small' variant='contained' className='all-btn' onClick={(() => addToWhishList(product))}>
-                                        {<AiFillHeart fontSize={21}/>}
+                                        {<AiFillHeart fontSize={21} />}
                                     </Button>
 
                                 </Tooltip>
@@ -267,7 +266,7 @@ const ProductDetail = () => {
                 </Box>
 
             </Container >
-            <CopyRight   sx={{ mt: 8, mb: 10 }} />
+            <CopyRight sx={{ mt: 8, mb: 10 }} />
 
         </>
     )

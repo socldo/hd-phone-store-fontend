@@ -86,7 +86,7 @@ const CommentCard = ({ userReview, setReviews, reviews, fetchReviews }) => {
                 }
             }
             catch (error) {
-                toast.error("Something went wrong", { autoClose: 600, })
+                toast.error("Có gì đó sai sai", { autoClose: 600, })
             }
         }
     }

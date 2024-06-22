@@ -50,6 +50,7 @@ const Cart = () => {
     }, [])
 
     useEffect(() => {
+        console.log('Authorization', authToken);
         if (setProceed) {
             setTotal(cart.reduce((acc, curr) => (acc + ((curr.productId?.price * curr.quantity) + shippingCoast)), 0))
         }
@@ -96,7 +97,7 @@ const Cart = () => {
                 toast.success("Removed From Cart", { autoClose: 500, theme: 'colored' })
                 setCart(cart.filter(c => c.productId._id !== product.productId._id))
             } catch (error) {
-                toast.error("Something went wrong", { autoClose: 500, theme: 'colored' })
+                toast.error("Có gì đó sai sai", { autoClose: 500, theme: 'colored' })
 
             }
         }

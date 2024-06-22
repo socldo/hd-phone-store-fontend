@@ -15,7 +15,7 @@ const SingleCategory = () => {
 
     const [productData, setProductData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [filterOption, setFilterOption] = useState('')
+    const [filterOption, setFilterOption] = useState('Tất cả')
     const [title, setTitle] = useState('Tất cả')
     const { cat } = useParams()
 

@@ -20,7 +20,7 @@ const UserCartItem = ({ commonGetRequest, id, authToken }) => {
                 toast.success("Removed From Cart", { autoClose: 500, theme: 'colored' })
             }
             else {
-                toast.error("Something went wrong", { autoClose: 500, theme: 'colored' })
+                toast.error("Có gì đó sai sai", { autoClose: 500, theme: 'colored' })
 
             }
         } catch (error) {

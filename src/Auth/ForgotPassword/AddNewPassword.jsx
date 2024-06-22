@@ -88,7 +88,7 @@ const AddNewPassword = () => {
 
                 </Box>
             </Box>
-            <CopyRight sx={{ mt: 8, mb: 4 }} />
+            {/* <CopyRight sx={{ mt: 8, mb: 4 }} /> */}
         </Container>
     )
 }

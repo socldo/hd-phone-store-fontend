@@ -17,6 +17,7 @@ const AddProduct = ({ getProductInfo, data }) => {
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [authorId, setAuthorId] = useState('');
 
     const getUser = async () => {
         try {
@@ -28,6 +29,7 @@ const AddProduct = ({ getProductInfo, data }) => {
             setUserId(data.phoneNumber);
             setIsAdmin(data.isAdmin);
             setIsPartner(data.isPartner);
+            setAuthorId(data._id);
         } catch (error) {
             toast.error(error.response.data, { autoClose: 500, theme: "colored" });
             throw error;
@@ -85,7 +87,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                     image: productInfo.image,
                     rating: productInfo.rating,
                     type: productInfo.type,
-                    author: productInfo.author,
+                    author: authorId,
                     description: productInfo.description,
                     status: isAdmin ? 'Đang bán' : 'Chờ duyệt',
                     userId: userId
@@ -99,7 +101,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                         image: productInfo.image,
                         rating: productInfo.rating,
                         type: productInfo.type,
-                        author: productInfo.author,
+                        author: authorId,
                         description: productInfo.description,
                         userId: userId,
                         status: isAdmin ? 'Đang bán' : 'Chờ duyệt'
@@ -113,6 +115,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                     // getProductInfo() 
 
                     toast.success(`Thêm thành công sản phẩm ${productInfo.name}`, { autoClose: 500, theme: 'colored' })
+                    getProductInfo();
                     setProductInfo({
                         name: "",
                         image: "",
