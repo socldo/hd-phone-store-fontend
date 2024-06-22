@@ -44,7 +44,7 @@ const AddProduct = ({ getProductInfo, data }) => {
     console.log('userId', userId);
     const [productInfo, setProductInfo] = useState({
         name: "",
-        image: "",
+        image: [],
         price: "",
         rating: "",
         category: "",
@@ -63,21 +63,27 @@ const AddProduct = ({ getProductInfo, data }) => {
     const handleClick = (event) => {
         const files = event.target.files;
         const fileArray = Array.from(files);
-
+    
+        const newImages = [];
+    
         fileArray.forEach((file) => {
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader(); // Create a FileReader
-
-                reader.onload = (e) => {
-                    setImages((prevImages) => [...prevImages, e.target.result]); // Add new image data to the state array
+            const reader = new FileReader(); // Create a FileReader
+            reader.onload = (e) => {
+                newImages.push(e.target.result);
+    
+                if (newImages.length === fileArray.length) {
+                    // Once all files are read
+                    const updatedImages = [...images, ...newImages];
+                    setImages(updatedImages); // Add new image data to the state array
+                    const updatedProduct = {
+                        ...productInfo,
+                        image : updatedImages,
+                    }
+                    setProductInfo(updatedProduct);
                 }
-
-                reader.readAsDataURL(file); // Read the file as a data URL
-            } else {
-                alert('Please select an image file.');
             }
+            reader.readAsDataURL(file); // Read the file as a data URL
         });
-        setProductInfo({ ...productInfo, image : images});
     };
 
     const handleClickOpen = () => {
@@ -89,8 +95,7 @@ const AddProduct = ({ getProductInfo, data }) => {
         setOpen(false);
     };
     const handleSubmit = async (e) => {
-        e.preventDefault()
-
+        e.preventDefault();
         try {
             if (!productInfo.name && !productInfo.image && !productInfo.price && !productInfo.rating && !productInfo.category && !productInfo.type && !productInfo.description) {
                 toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
