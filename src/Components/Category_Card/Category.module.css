@@ -1,6 +1,6 @@
 .mainCard {
-    height: 300px;
-    width: 400px;
+    height: 200px;
+    width: 300px;
     display: flex;
     position: relative;
     cursor: pointer;
@@ -24,7 +24,7 @@
     position: absolute;
     /* bottom: ; */
     top: 85%;
-    color: white;
+    color: #1976d2;
     right: 0;
     padding-right: 10px;
     font-size: 20px;

@@ -5,10 +5,6 @@ const data = [
         name: "Điện thoại"
     },
     {
-        img: Macbook,
-        name: "Laptop"
-    },
-    {
         img: HeadPhone,
         name: "Tai nghe"
     },

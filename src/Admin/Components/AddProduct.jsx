@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Transition } from '../../Constants/Constant';
 import { MdOutlineCancel, MdProductionQuantityLimits } from 'react-icons/md';
 
+
 const AddProduct = ({ getProductInfo, data }) => {
     // const [age, setAge] = useState('');
 
@@ -17,6 +18,7 @@ const AddProduct = ({ getProductInfo, data }) => {
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [images, setImages] = useState([]);
     const [authorId, setAuthorId] = useState('');
 
     const getUser = async () => {
@@ -44,7 +46,7 @@ const AddProduct = ({ getProductInfo, data }) => {
     console.log('userId', userId);
     const [productInfo, setProductInfo] = useState({
         name: "",
-        image: "",
+        image: [],
         price: "",
         rating: "",
         category: "",
@@ -58,18 +60,42 @@ const AddProduct = ({ getProductInfo, data }) => {
 
     // const [productInfo, setCredentials] = useState({ firstName: "", lastName: '', email: "", phoneNumber: '', password: "" })
     const handleOnchange = (e) => {
-        setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
+        setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
     }
+    const handleClick = (event) => {
+        const files = event.target.files;
+        const fileArray = Array.from(files);
+    
+        const newImages = [];
+    
+        fileArray.forEach((file) => {
+            const reader = new FileReader(); // Create a FileReader
+            reader.onload = (e) => {
+                newImages.push(e.target.result);
+    
+                if (newImages.length === fileArray.length) {
+                    // Once all files are read
+                    let imagesAfter
+                    setImages((pre) => {
+                                                        imagesAfter = [...pre, ...newImages]
+                                                        return imagesAfter}); // Add new image data to the state array
+                    setProductInfo((pre) => ({...pre, image: imagesAfter}));
+                }
+            }
+            reader.readAsDataURL(file); // Read the file as a data URL
+        });
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
+        setImages([]);
         setOpen(false);
     };
     const handleSubmit = async (e) => {
-        e.preventDefault()
-
+        e.preventDefault();
         try {
             if (!productInfo.name && !productInfo.image && !productInfo.price && !productInfo.rating && !productInfo.category && !productInfo.type && !productInfo.description) {
                 toast.error("Vui lòng điền đầy đủ thông tin", { autoClose: 500, theme: 'colored' })
@@ -111,7 +137,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                     }
                 })
                 setOpen(false);
-                if ( data.data) {
+                if (data.data) {
                     // getProductInfo() 
 
                     toast.success(`Thêm thành công sản phẩm ${productInfo.name}`, { autoClose: 500, theme: 'colored' })
@@ -251,7 +277,11 @@ const AddProduct = ({ getProductInfo, data }) => {
                                     </Grid>
                                 }
                                 <Grid item xs={12} >
-                                    <TextField label="Image URL" name='image' value={productInfo.image} onChange={handleOnchange} variant="outlined" fullWidth />
+                                    <input type="file" accept="image/png, image/jpeg" label="Image" name='image' onChange={handleClick} variant="outlined" fullWidth />
+                                    <br />
+                                    {images.map((image, index) => (
+                                        <img key={index} src={image} alt={`Upload ${index}`} style={{ width: '100px', height: '100px', margin: '10px' }} />
+                                    ))}
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField label="Price" name='price' value={productInfo.price} onChange={handleOnchange} variant="outlined" inputMode='numeric' fullWidth />
@@ -278,7 +308,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                             </Grid>
                             <DialogActions sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mt: 2 }}>
                                 <Button fullWidth variant='contained' type='reset' color='error' onClick={handleClose} endIcon={<MdOutlineCancel />}>Hủy</Button>
-                                <Button type="submit" fullWidth variant="contained" endIcon={<MdProductionQuantityLimits />}>Thêm</Button>
+                                <Button  type="submit" fullWidth variant="contained" endIcon={<MdProductionQuantityLimits />}>Thêm</Button>
                             </DialogActions>
                         </form>
                     </Box >

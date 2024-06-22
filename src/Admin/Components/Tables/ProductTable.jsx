@@ -21,8 +21,10 @@ import {
     Box,
     Icon,
     Link as MuiLink,
-    Tooltip
-} from '@mui/material';
+    Tooltip, Rating
+}
+    from '@mui/material';
+
 import { Link } from 'react-router-dom';
 import AddProduct from '../AddProduct';
 import axios from 'axios';
@@ -30,6 +32,7 @@ import { toast } from 'react-toastify';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
+import {formatCurrency} from "../../../Helpers/FormatCurrency";
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ChatDialog from '../ChatDialog';
 
@@ -274,7 +277,7 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                <img src={prod.image} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
+                                                <img src={prod.image[0]} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
@@ -284,12 +287,12 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.price} đ
+                                                {formatCurrency(prod.price)}
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.rating}
+                                                <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />
                                             </Link>
                                         </TableCell>
                                         <TableCell
@@ -397,6 +400,24 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                 </DialogTitle>
                 <DialogContent>
                     {orderDetails ? (
+                        <Box>
+                            {orderDetails.map((order, index) => (
+                                <Box key={index} mb={2}>
+                                    <Typography variant="body1">
+                                        Order ID: {order.id}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Customer: {order.customerName}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Quantity: {order.quantity}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Total Price: {formatCurrency(order.totalPrice)}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
                         <Table>
                             <TableHead>
                                 <TableRow>

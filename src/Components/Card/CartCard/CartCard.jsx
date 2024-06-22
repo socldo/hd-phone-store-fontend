@@ -3,6 +3,7 @@ import { Box } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { AiFillDelete } from 'react-icons/ai'
 import styles from './CartCard.module.css'
+import {formatCurrency} from "../../../Helpers/FormatCurrency";
 const CartCard = ({ product, removeFromCart }) => {
 
 
@@ -28,8 +29,8 @@ const CartCard = ({ product, removeFromCart }) => {
                         }}
                     >
                         {product.quantity && <Button>  <Typography variant='body2' color='black'>  Số lượng  {' ' + product.quantity} </Typography></Button>}
-                        <Typography gutterBottom variant="h6" sx={{ textAlign: "center" }}>
-                            {product?.productId?.price} đ
+                        <Typography gutterBottom variant="h6" sx={{ textAlign: "center", color: '#be1e2d' }}>
+                            {formatCurrency(product?.productId?.price)}
                         </Typography>
                     </Box>
                 </CardContent>

@@ -53,11 +53,10 @@ const getAllProducts = async (setData) => {
     }
 }
 
-const getSingleProduct = async (setProduct, id, setLoading) => {
+const getSingleProduct = async (id) => {
 
-    const { data } = await axios.get(`${process.env.REACT_APP_FETCH_PRODUCT}/${id}`)
-    setProduct(data)
-    setLoading(false);
+    const res = await axios.get(`${process.env.REACT_APP_FETCH_PRODUCT}/${id}`)
+    return res;
 
 }
 

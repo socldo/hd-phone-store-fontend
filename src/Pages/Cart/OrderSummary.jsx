@@ -1,6 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { IoBagCheckOutline } from 'react-icons/io5'
+import {formatCurrency} from "../../Helpers/FormatCurrency";
 
 const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
     return (
@@ -24,7 +25,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             Tạm tính
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
-                            {total - shippingCoast} đ
+                            {formatCurrency(total - shippingCoast)}
                         </Typography>
                     </Box>
                     {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }} >
@@ -32,7 +33,7 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             Tiền ship
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
-                            {shippingCoast} đ
+                            {formatCurrency(shippingCoast)}
                         </Typography>
                     </Box> */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
@@ -40,7 +41,8 @@ const OrderSummary = ({ proceedToCheckout, total, shippingCoast }) => {
                             Tổng cộng
                         </Typography>
                         <Typography variant="h6" component="div" color='primary'>
-                            {total - shippingCoast} đ
+                            {formatCurrency(total)}
+
                         </Typography>
                     </Box>
                 </Grid>
