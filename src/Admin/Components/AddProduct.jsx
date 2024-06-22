@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Transition } from '../../Constants/Constant';
 import { MdOutlineCancel, MdProductionQuantityLimits } from 'react-icons/md';
 
+
 const AddProduct = ({ getProductInfo, data }) => {
     // const [age, setAge] = useState('');
 
@@ -17,6 +18,7 @@ const AddProduct = ({ getProductInfo, data }) => {
     const [isPartner, setIsPartner] = useState(false);
     const [userId, setUserId] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [images, setImages] = useState([]);
 
     const getUser = async () => {
         try {
@@ -56,13 +58,34 @@ const AddProduct = ({ getProductInfo, data }) => {
 
     // const [productInfo, setCredentials] = useState({ firstName: "", lastName: '', email: "", phoneNumber: '', password: "" })
     const handleOnchange = (e) => {
-        setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
+        setProductInfo({ ...productInfo, [e.target.name]: e.target.value });
     }
+    const handleClick = (event) => {
+        const files = event.target.files;
+        const fileArray = Array.from(files);
+
+        fileArray.forEach((file) => {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader(); // Create a FileReader
+
+                reader.onload = (e) => {
+                    setImages((prevImages) => [...prevImages, e.target.result]); // Add new image data to the state array
+                }
+
+                reader.readAsDataURL(file); // Read the file as a data URL
+            } else {
+                alert('Please select an image file.');
+            }
+        });
+        setProductInfo({ ...productInfo, image : images});
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
+        setImages([]);
         setOpen(false);
     };
     const handleSubmit = async (e) => {
@@ -109,7 +132,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                     }
                 })
                 setOpen(false);
-                if ( data.data) {
+                if (data.data) {
                     // getProductInfo() 
 
                     toast.success(`Thêm thành công sản phẩm ${productInfo.name}`, { autoClose: 500, theme: 'colored' })
@@ -248,7 +271,11 @@ const AddProduct = ({ getProductInfo, data }) => {
                                     </Grid>
                                 }
                                 <Grid item xs={12} >
-                                    <TextField label="Image URL" name='image' value={productInfo.image} onChange={handleOnchange} variant="outlined" fullWidth />
+                                    <input type="file" accept="image/png, image/jpeg" label="Image" name='image' onChange={handleClick} variant="outlined" fullWidth />
+                                    <br />
+                                    {images.map((image, index) => (
+                                        <img key={index} src={image} alt={`Upload ${index}`} style={{ width: '100px', height: '100px', margin: '10px' }} />
+                                    ))}
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField label="Price" name='price' value={productInfo.price} onChange={handleOnchange} variant="outlined" inputMode='numeric' fullWidth />
