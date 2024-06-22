@@ -248,7 +248,7 @@ const ProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                <img src={prod.image} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
+                                                <img src={prod.image[0]} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">

@@ -3,29 +3,21 @@ import AliceCarousel from 'react-alice-carousel';
 import BannerData from '../../Helpers/HomePageBanner'
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { Link } from 'react-router-dom';
-const Carousel = () => {
+const Carousel = ({items, disableBtnControl = true}) => {
     const responsive = {
         0: { items: 1 },
         568: { items: 2 },
         1024: { items: 3, itemsFit: 'contain' },
     };
-    const items = BannerData.map((item) => (
 
-        <Link to={`product/type/${item.name}`} key={item.name} >
-            <div className="item" style={{ marginTop: 10 }} >
-                <img src={item.img} loading='lazy' alt={item.name} style={{ height: '90%', width: '90%', objectFit: 'contain' }} />
-            </div>
-        </Link>
-    ))
 
     return (
         <AliceCarousel
             animationType="fadeout"
             animationDuration={800}
-            disableButtonsControls
+            disableButtonsControls = {disableBtnControl}
             infinite
             items={items}
-            touchTracking
             mouseTracking
             disableDotsControls
             autoPlay

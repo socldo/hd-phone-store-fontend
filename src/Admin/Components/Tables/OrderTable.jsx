@@ -92,7 +92,8 @@ const OrderTable = ({ orders }) => {
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody>
-                                                            {order.productData.map(product => (
+                                                            {order.productData.map(product => {
+                                                                return (
                                                                 <TableRow key={product._id}>
                                                                     <TableCell align="left" >
                                                                         <Link to={`/admin/home/product/${product.productId.type}/${product.productId._id}`}>
@@ -101,7 +102,7 @@ const OrderTable = ({ orders }) => {
                                                                     </TableCell>
                                                                     <TableCell align="left">
                                                                         <Link to={`/admin/home/product/${product.productId.type}/${product.productId._id}`}>
-                                                                            <img src={product.productId.image} alt={product.productId.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
+                                                                            <img src={product.productId.image[0]} alt={product.productId.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
                                                                         </Link>
                                                                     </TableCell>
                                                                     <TableCell align="left" >
@@ -121,7 +122,7 @@ const OrderTable = ({ orders }) => {
                                                                     </TableCell>
 
                                                                 </TableRow>
-                                                            ))}
+                                                            )})}
                                                         </TableBody>
                                                     </Table>
                                                 </div>

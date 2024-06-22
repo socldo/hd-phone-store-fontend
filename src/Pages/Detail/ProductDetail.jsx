@@ -27,6 +27,9 @@ import ProductReview from '../../Components/Review/ProductReview';
 import ProductCard from '../../Components/Card/Product Card/ProductCard';
 import { Transition, getSingleProduct } from '../../Constants/Constant';
 import CopyRight from '../../Components/CopyRight/CopyRight';
+import {formatCurrency} from "../../Helpers/FormatCurrency";
+import Carousel from "../../Components/Carousel/Carousel";
+import BannerData from "../../Helpers/HomePageBanner";
 
 
 
@@ -38,23 +41,21 @@ const ProductDetail = () => {
     const [similarProduct, setSimilarProduct] = useState([])
     const [productQuantity, setProductQuantity] = useState(1)
     const [loading, setLoading] = useState(true);
-
-
+    const[srcImage, setSrcImage] = useState();
     let authToken = localStorage.getItem('Authorization')
     let setProceed = authToken ? true : false
-
-
     useEffect(() => {
-
-        getSingleProduct(setProduct, id, setLoading)
+        getSingleProduct(id).then(res =>{
+            setProduct((res.data))
+            setSrcImage(res.data?.image[0])
+            setLoading(false)
+        })
         getSimilarProducts()
         window.scroll(0, 0)
     }, [id])
-    //Hàm doi don vi tien te
-    const formatCurrency = (amount) => {
-        return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-    };
-
+    // useEffect(() => {
+    //     setSrcImage(product?.image[0])
+    // }, [id])
     const addToCart = async (product) => {
         if (setProceed) {
             try {
@@ -150,12 +151,26 @@ const ProductDetail = () => {
             setProductQuantity(1)
         }
     }
-    return (
-        <>
-            <Container maxWidth='xl' >
-                <Dialog
-                    open={openAlert}
-                    TransitionComponent={Transition}
+    let items
+    if(!loading) {
+        console.log("product", product.image)
+        items = product.image.map((src) => (
+            <img
+                src={src}
+                loading="lazy"
+                alt=""
+                style={{height: '60%', width: '100%', objectFit: 'contain', paddingRight: 10, boderRadius: 10}}
+                onClick={() => setSrcImage(src)}
+            />
+        ))
+    }
+    console.log("items", items)
+return (
+    <>
+        <Container maxWidth='xl'>
+            <Dialog
+                open={openAlert}
+                TransitionComponent={Transition}
                     keepMounted
                     onClose={() => setOpenAlert(false)}
                     aria-describedby="alert-dialog-slide-description"
@@ -178,8 +193,10 @@ const ProductDetail = () => {
                     ) : (
                         <div className="product-image">
                             <div className='detail-img-box'  >
-                                <img alt={product.name} src={product.image} className='detail-img' />
-                                <br />
+                                <img alt={product.name} src={srcImage||product.image[0]} className='detail-img'  width={'100%'} height={'100%'}/>
+                            </div>
+                            <div className='details-img-box'>
+                                 <Carousel items={items} disableBtnControl={false} />
                             </div>
                         </div>
                     )}
@@ -187,16 +204,11 @@ const ProductDetail = () => {
                         <section style={{ display: 'flex', flexWrap: "wrap", width: "100%", justifyContent: "space-around", alignItems: 'center' }}>
                             <Skeleton variant='rectangular' height={200} width="200px" />
                             <Skeleton variant='text' height={400} width={700} />
-
                         </section>
 
                     ) : (
                         <section className='product-details'>
                             <Typography variant='h4'>{product.name}</Typography>
-
-                            <Typography >
-                                {product.description}
-                            </Typography>
                             <Typography >
                                 <div className="chip">
                                     {
@@ -236,6 +248,9 @@ const ProductDetail = () => {
                                     <Button onClick={increaseQuantity}>+</Button>
                                 </ButtonGroup>
                             </Box>
+                            <Typography >
+                                {product.description}
+                            </Typography>
                             <Rating name="read-only" value={Math.round(product.rating)} readOnly precision={0.5} />
                             <div style={{ display: 'flex' }} >
                                 <Tooltip title='Add To Cart'>
@@ -252,6 +267,7 @@ const ProductDetail = () => {
                                 </Tooltip>
 
                             </div>
+
                         </section>
                     )}
                 </main>
@@ -278,4 +294,4 @@ const ProductDetail = () => {
     )
 }
 
-export default ProductDetail
+export default ProductDetail;
