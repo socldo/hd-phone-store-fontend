@@ -73,13 +73,11 @@ const AddProduct = ({ getProductInfo, data }) => {
     
                 if (newImages.length === fileArray.length) {
                     // Once all files are read
-                    const updatedImages = [...images, ...newImages];
-                    setImages(updatedImages); // Add new image data to the state array
-                    const updatedProduct = {
-                        ...productInfo,
-                        image : updatedImages,
-                    }
-                    setProductInfo(updatedProduct);
+                    let imagesAfter
+                    setImages((pre) => {
+                                                        imagesAfter = [...pre, ...newImages]
+                                                        return imagesAfter}); // Add new image data to the state array
+                    setProductInfo((pre) => ({...pre, image: imagesAfter}));
                 }
             }
             reader.readAsDataURL(file); // Read the file as a data URL
@@ -307,7 +305,7 @@ const AddProduct = ({ getProductInfo, data }) => {
                             </Grid>
                             <DialogActions sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mt: 2 }}>
                                 <Button fullWidth variant='contained' type='reset' color='error' onClick={handleClose} endIcon={<MdOutlineCancel />}>Hủy</Button>
-                                <Button type="submit" fullWidth variant="contained" endIcon={<MdProductionQuantityLimits />}>Thêm</Button>
+                                <Button  type="submit" fullWidth variant="contained" endIcon={<MdProductionQuantityLimits />}>Thêm</Button>
                             </DialogActions>
                         </form>
                     </Box >
