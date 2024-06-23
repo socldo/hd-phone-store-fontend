@@ -218,15 +218,6 @@ return (
                                     }
                                 </div>
                             </Typography>
-
-                            {/* <Chip
-                                label={product.price > 1000}
-                                variant="outlined"
-                                sx={{ background: '#1976d2', color: 'white', maxWidth: '200px', fontWeight: 'bold' }}
-                                avatar={<TbDiscount2 color='white' />}
-
-
-                            /> */}
                             <div style={{ display: 'flex', gap: 20 }}>
                                 <Typography variant="h6" color="red"><s> {product.price > 1000000 ? formatCurrency(product.price + product.price * 15 / 100) : formatCurrency(product.price + product.price * 8 /100)}</s> </Typography>
 
@@ -234,35 +225,6 @@ return (
                                     {formatCurrency(product.price)}
                                 </Typography>
                             </div>
-                            {/* <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    // background: 'red',
-                                    '& > *': {
-                                        m: 1,
-                                    },
-                                }}
-
-                            >
-                                <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                    <Button onClick={decreaseQuantity}>-</Button>
-                                    <Button>{productQuantity}</Button>
-                                    <Button onClick={increaseQuantity}>+</Button>
-                                </ButtonGroup>
-                            </Box>
-                            <Typography >
-                                {product.description}
-                            </Typography>
-
-                            > */}
-                                {/* <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                    <Button onClick={increaseQuantity}>+</Button>
-                                    <Button>{productQuantity}</Button>
-                                    <Button onClick={decreaseQuantity}>-</Button>
-                                </ButtonGroup> */}
-                            {/* </Box> */}
-
                             <Rating name="read-only" value={Math.round(product.rating)} readOnly precision={0.5} />
                             <div style={{ display: 'flex' }} >
                                 <Tooltip title='Add To Cart'>
@@ -279,7 +241,9 @@ return (
                                 </Tooltip>
 
                             </div>
-
+                            <Typography >
+                                {product.description}
+                            </Typography>
                         </section>
                     )}
                 </main>

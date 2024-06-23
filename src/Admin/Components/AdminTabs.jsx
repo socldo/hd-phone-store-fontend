@@ -73,6 +73,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
             setCart(data.cart);
             setWishlist(data.wishlist);
             setPaymentData(data.payment);
+            console.log("data", data)
             setReportData(data.report)
             setUsers(data.user)
         } catch (error) {
@@ -105,7 +106,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
                     <Widget numbers={paymentData.length} heading='Đơn hàng' color='#1f77b4  ' icon={<FaShippingFast />} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                    <Widget numbers={report.length} heading='Report' color='#1f77b4  ' icon={<FaShippingFast />} />
+                    <Widget numbers={report?.length} heading='Report' color='#1f77b4  ' icon={<FaShippingFast />} />
                 </Grid>
             </Grid>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>

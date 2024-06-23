@@ -34,6 +34,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ChatDialog from '../ChatDialog';
 import ReportDialog from '../ReportDialog';
 import ReportIcon from '@mui/icons-material/Report';
+import {formatCurrency} from "../../../Helpers/FormatCurrency";
 
 const BuyProductTable = ({ data, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
@@ -134,7 +135,6 @@ const BuyProductTable = ({ data, getProductInfo }) => {
         const newFilteredData = filterData();
         setFilteredData(newFilteredData);
     };
-
     const handleApproveProduct = async (id, status) => {
         changeStatusProduct(id, status);
     };
@@ -232,7 +232,9 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                filteredData.map((prod) => (
+                                filteredData.map((prod) => {
+                                    console.log(prod)
+                                    return(
                                     <TableRow key={prod._id}>
                                         <TableCell component="th" scope="row" align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
@@ -241,7 +243,7 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                <img src={prod.image} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
+                                                <img src={prod.image[0]} alt={prod.name} style={{ width: "100px", height: "100px", objectFit: "contain" }} />
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
@@ -251,7 +253,7 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.price} đ
+                                                {formatCurrency(prod.price)}
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
@@ -263,12 +265,12 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link>
-                                                {prod.author ? prod.author.lastName : ''}
+                                                {prod.customerId ? prod.customerId.lastName : ''}
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link>
-                                                {prod.author ? prod.author.phoneNumber : ''}
+                                                {prod.customerId ? prod.customerId.phoneNumber : ''}
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
@@ -286,7 +288,7 @@ const BuyProductTable = ({ data, getProductInfo }) => {
                                             </Tooltip>
                                         </TableCell>
                                     </TableRow>
-                                ))
+                                )})
                             )}
                         </TableBody>
                     </Table>

@@ -21,10 +21,8 @@ import {
     Box,
     Icon,
     Link as MuiLink,
-    Tooltip, Rating
-}
-    from '@mui/material';
-
+    Tooltip
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddProduct from '../AddProduct';
 import axios from 'axios';
@@ -32,7 +30,6 @@ import { toast } from 'react-toastify';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {formatCurrency} from "../../../Helpers/FormatCurrency";
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ChatDialog from '../ChatDialog';
 
@@ -74,10 +71,10 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                     id: id,
                     status: status
                 }, {
-                headers: {
-                    'Authorization': authToken
-                }
-            });
+                    headers: {
+                        'Authorization': authToken
+                    }
+                });
             if (data) {
                 toast.success(`Cập nhật thành công`, { autoClose: 500, theme: 'colored' });
                 setProducts((prevProducts) =>
@@ -287,12 +284,12 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {formatCurrency(prod.price)}
+                                                {prod.price} đ
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />
+                                                {prod.rating}
                                             </Link>
                                         </TableCell>
                                         <TableCell
@@ -344,26 +341,26 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                                     <Tooltip title="Bán xong">
                                                         {(prod.status === 'Đang bán' && (isAdmin || isPartner)) && (
                                                             <DoneOutlinedIcon onClick={() => handleApproveProduct(prod._id, "Đã bán")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'green',
-                                                                    '&:hover': {
-                                                                        color: 'darkgreen',
-                                                                    },
-                                                                }}
+                                                                              sx={{
+                                                                                  ml: 1,
+                                                                                  color: 'green',
+                                                                                  '&:hover': {
+                                                                                      color: 'darkgreen',
+                                                                                  },
+                                                                              }}
                                                             />
                                                         )}
                                                     </Tooltip>
                                                     <Tooltip title="Hủy">
                                                         {(prod.status !== 'Đã bán') && (
                                                             <CancelIcon onClick={() => handleApproveProduct(prod._id, "Đã hủy")}
-                                                                sx={{
-                                                                    ml: 1,
-                                                                    color: 'red',
-                                                                    '&:hover': {
-                                                                        color: 'darkred',
-                                                                    },
-                                                                }}
+                                                                        sx={{
+                                                                            ml: 1,
+                                                                            color: 'red',
+                                                                            '&:hover': {
+                                                                                color: 'darkred',
+                                                                            },
+                                                                        }}
                                                             />
                                                         )}
                                                     </Tooltip>
@@ -400,24 +397,6 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                 </DialogTitle>
                 <DialogContent>
                     {orderDetails ? (
-                        <Box>
-                            {orderDetails.map((order, index) => (
-                                <Box key={index} mb={2}>
-                                    <Typography variant="body1">
-                                        Order ID: {order.id}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Customer: {order.customerName}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Quantity: {order.quantity}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Total Price: {formatCurrency(order.totalPrice)}
-                                    </Typography>
-                                </Box>
-                            ))}
-                        </Box>
                         <Table>
                             <TableHead>
                                 <TableRow>
@@ -434,7 +413,7 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                     <TableRow key={index}>
                                         <TableCell>{order.productId.name}</TableCell>
                                         <TableCell>
-                                            <img src={order.productId.image} alt={order.productId.name} style={{ maxWidth: '100px' }} />
+                                            <img src={order.productId.image[0]} alt={order.productId.name} style={{ maxWidth: '100px' }} />
                                         </TableCell>
                                         <TableCell>{order.productId.price}</TableCell>
                                         <TableCell>{order.user.email}</TableCell>
