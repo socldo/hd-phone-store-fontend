@@ -21,7 +21,7 @@ import {
     Box,
     Icon,
     Link as MuiLink,
-    Tooltip
+    Tooltip, Rating
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddProduct from '../AddProduct';
@@ -32,6 +32,7 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ChatDialog from '../ChatDialog';
+import {formatCurrency} from "../../../Helpers/FormatCurrency";
 
 const ProductTable = ({ data, setProducts, getProductInfo }) => {
     const [filteredData, setFilteredData] = useState([]);
@@ -284,12 +285,12 @@ const ProductTable = ({ data, setProducts, getProductInfo }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.price} đ
+                                                {formatCurrency(prod.price)}
                                             </Link>
                                         </TableCell>
                                         <TableCell align="center">
                                             <Link to={`/admin/home/product/${prod.type}/${prod._id}`}>
-                                                {prod.rating}
+                                                <Rating precision={0.5} name="read-only" value={prod.rating} readOnly />
                                             </Link>
                                         </TableCell>
                                         <TableCell
