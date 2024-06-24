@@ -75,9 +75,9 @@ const UserTable = ({ user, getUser }) => {
     });
 
     const handleDeleteUser = async (userId) => {
-  
+        console.log('userId.author', userId)
         try {
-            await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId.author}`);
+            await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId}`);
             toast.success('User deleted successfully');
             // getReports(); // Refresh the reports
         } catch (error) {

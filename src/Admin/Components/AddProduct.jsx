@@ -43,7 +43,6 @@ const AddProduct = ({ getProductInfo, data }) => {
     }, [])
 
     let authToken = localStorage.getItem("Authorization")
-    console.log('userId', userId);
     const [productInfo, setProductInfo] = useState({
         name: "",
         image: [],

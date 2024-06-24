@@ -63,10 +63,10 @@ const ReportDialog = ({ open, onClose, userId, productId }) => {
                     value={reportType}
                     onChange={(e) => setReportType(e.target.value)}
                 >
-                    <MenuItem value="scam">Lừa đảo</MenuItem>
-                    <MenuItem value="spam">Spam</MenuItem>
-                    <MenuItem value="abuse">Xúc phạm</MenuItem>
-                    <MenuItem value="inappropriate_language">Ngôn ngữ thô tục</MenuItem>
+                    <MenuItem value="Lừa đo">Lừa đảo</MenuItem>
+                    <MenuItem value="Spam">Spam</MenuItem>
+                    <MenuItem value="Xúc phạm">Xúc phạm</MenuItem>
+                    <MenuItem value="Ngôn ngữ thô tục">Ngôn ngữ thô tục</MenuItem>
                 </TextField>
                 <TextField
                     autoFocus

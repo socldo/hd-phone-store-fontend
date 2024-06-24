@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, Typography, Box, useMediaQuery, Grid } from '@mui/material';
-import ProductChart from './Charts/ProductChart';
+// import ProductChart from './Charts/ProductChart';
 import UserTable from './Tables/UserTable';
 import axios from 'axios';
 import ProductTable from './Tables/ProductTable';
@@ -73,12 +73,9 @@ export default function BasicTabs({ user, setUser, getUser }) {
             setCart(data.cart);
             setWishlist(data.wishlist);
             setPaymentData(data.payment);
-            console.log("data", data)
             setReportData(data.report)
             setUsers(data.user)
         } catch (error) {
-            console.log(error);
-
         }
     }
 
@@ -97,7 +94,7 @@ export default function BasicTabs({ user, setUser, getUser }) {
                     <Widget numbers={totalRevenue} heading='Doanh thu' color='#9932CC' icon={<TbReportMoney />} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                    <Widget numbers={products.length} heading='Sản phẩm' color='#FFC300' icon={<AiOutlineShoppingCart />} />
+                    <Widget numbers={products.length}   heading='Sản phẩm' color='#FFC300' icon={<AiOutlineShoppingCart />} />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                     <Widget numbers={user.length} heading='Người dùng' color='#FF69B4' icon={<CgProfile />} />
@@ -111,32 +108,32 @@ export default function BasicTabs({ user, setUser, getUser }) {
             </Grid>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" style={{ overflowX: "a" }} >
-                    <Tab label={!isSmallScreen && 'Thống kế'}  {...a11yProps(0)} iconPosition='start' icon={<VscGraph fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Người dùng"} {...a11yProps(1)} iconPosition='start' icon={<CgProfile fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Sản phẩm"} {...a11yProps(2)} iconPosition='start' icon={<AiOutlineShoppingCart fontSize={20} />} />
-                    <Tab label={!isSmallScreen && "Đơn hàng"} {...a11yProps(3)} iconPosition='start' icon={<FaShippingFast fontSize={20} />} />
+                    {/*<Tab label={!isSmallScreen && 'Thống kế'}  {...a11yProps(0)} iconPosition='start' icon={<VscGraph fontSize={20} />} />*/}
+                    <Tab label={!isSmallScreen && "Người dùng"} {...a11yProps(0)} iconPosition='start' icon={<CgProfile fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Sản phẩm"} {...a11yProps(1)} iconPosition='start' icon={<AiOutlineShoppingCart fontSize={20} />} />
+                    <Tab label={!isSmallScreen && "Đơn hàng"} {...a11yProps(2)} iconPosition='start' icon={<FaShippingFast fontSize={20} />} />
                     <Tab label={!isSmallScreen && "Report"} {...a11yProps(3)} iconPosition='start' icon={<MdOutlineReportGmailerrorred fontSize={20} />} />
                 </Tabs>
             </Box>
-            <TabPanel value={value} index={0} >
-                <ProductChart
-                    products={products}
-                    review={review}
-                    cart={cart}
-                    wishlist={wishlist}
-                    paymentData={paymentData}
-                    user={user} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
+            {/*<TabPanel value={value} index={0} >*/}
+            {/*    <ProductChart*/}
+            {/*        products={products}*/}
+            {/*        review={review}*/}
+            {/*        cart={cart}*/}
+            {/*        wishlist={wishlist}*/}
+            {/*        paymentData={paymentData}*/}
+            {/*        user={user} />*/}
+            {/*</TabPanel>*/}
+            <TabPanel value={value} index={0}>
                 <UserTable user={users} paymentData={paymentData} getUser={getUser} />
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={value} index={1}>
                 <ProductTable data={products} setProducts={setProducts} getProductInfo={getProductInfo} />
             </TabPanel>
-            <TabPanel value={value} index={3}>
+            <TabPanel value={value} index={2}>
                 <OrderTable orders={paymentData} />
             </TabPanel>
-            <TabPanel value={value} index={4}>
+            <TabPanel value={value} index={3}>
                 <ReportTable reports={report} />
             </TabPanel>
         </Box >

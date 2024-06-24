@@ -38,7 +38,6 @@ const ReportTable = ({ reports, getReports }) => {
         try {
             await axios.delete(`${process.env.REACT_APP_DELETE_USER_DETAILS}/${userId.author}`);
             toast.success('User deleted successfully');
-            // getReports(); // Refresh the reports
         } catch (error) {
             
         }
@@ -50,8 +49,7 @@ const ReportTable = ({ reports, getReports }) => {
             console.log('reportId', reportId);
             await axios.delete(`${process.env.REACT_APP_DELETE_REPORT_USER}/${reportId}`);
             toast.success('Report ignored successfully');
-            // getReports(); // Refresh the reports
-  
+
     };
 
     // const filteredReports = reports;
