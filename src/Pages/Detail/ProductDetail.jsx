@@ -153,7 +153,6 @@ const ProductDetail = () => {
     }
     let items
     if(!loading) {
-        console.log("product", product.image)
         items = product.image.map((src) => (
             <img
                 src={src}
@@ -164,7 +163,6 @@ const ProductDetail = () => {
             />
         ))
     }
-    console.log("items", items)
 return (
     <>
         <Container maxWidth='xl'>

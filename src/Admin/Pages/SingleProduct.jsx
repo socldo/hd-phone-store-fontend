@@ -8,6 +8,7 @@ import { AiFillCloseCircle, AiFillDelete, AiOutlineFileDone } from 'react-icons/
 import { toast } from 'react-toastify';
 import { Transition } from '../../Constants/Constant';
 import CopyRight from '../../Components/CopyRight/CopyRight';
+import Carousel from "../../Components/Carousel/Carousel";
 const SingleProduct = () => {
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +18,7 @@ const SingleProduct = () => {
     let authToken = localStorage.getItem("Authorization")
     const [productInfo, setProductInfo] = useState({
         name: "",
-        image: "",
+        image: [],
         price: "",
         rating: "",
         category: "",
@@ -41,38 +42,21 @@ const SingleProduct = () => {
         productInfo.category = data.category
         productInfo.type = data.type
         productInfo.description = data.description
-        data.author && (productInfo.author = data.author)
-        data.brand && (productInfo.brand = data.brand)
         setProduct(data)
         setLoading(false);
-
     }
     const handleOnchange = (e) => {
         setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
-
     }
     const productFilter = []
 
-    if (productInfo.type === 'book') {
-        productFilter.push('scifi', 'business', 'mystery', 'cookbooks', 'accessories')
+    if (product.type === 'Điện thoại') {
+        productFilter.push('Iphone', 'Samsung', 'Xiaomi', 'Huawei')
     }
-    else if (productInfo.type === 'cloths') {
-        productFilter.push('men', 'women')
-    }
-    else if (productInfo.type === 'shoe') {
-        productFilter.push('running', 'football', 'formal', 'casual')
-    }
-    else if (productInfo.type === 'electronics') {
-        productFilter.push('monitor', 'ssd', 'hdd')
 
-    }
-    else {
-        productFilter.push('jewelery')
-
-    }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!productInfo.name && !productInfo.image && !productInfo.price && !productInfo.rating && !productInfo.category && !productInfo.type && !productInfo.description) {
+        if (!productInfo.name && !productInfo.price && !productInfo.rating && !productInfo.category && !productInfo.type && !productInfo.description) {
             toast.error("All fields are required", { autoClose: 500, })
 
         }
@@ -83,11 +67,13 @@ const SingleProduct = () => {
         else {
             setError(false)
             try {
+                console.log("productInfor", productInfo)
                 const { data } = await axios.put(`${process.env.REACT_APP_ADMIN_UPDATE_PRODUCT}/${product._id}`, { productDetails: productInfo }, {
                     headers: {
                         'Authorization': authToken
                     }
                 })
+                console.log("res", data)
                 if (data.success) {
                     toast.success("Product updated successfully", { autoClose: 500, })
 
@@ -109,7 +95,6 @@ const SingleProduct = () => {
                     'Authorization': authToken
                 }
             });
-            console.log(data);
             if (data == true) {
                 toast.success("Product deleted successfully", { autoClose: 500, theme: 'colored' })
                 navigate(-1);
@@ -123,11 +108,20 @@ const SingleProduct = () => {
             toast.error(error.response.data, { autoClose: 500, theme: 'colored' })
         }
     }
-    const shoeBrand = ['adidas', 'hushpuppies', 'nike', 'reebok', 'vans']
-    const typeDropdown = ['book', 'cloths', 'shoe', 'electronics', 'jewelry'];
+    const[srcImage, setSrcImage] = useState();
 
-
-
+    let items
+    if(!loading) {
+        items = product.image.map((src) => (
+            <img
+                src={src}
+                loading="lazy"
+                alt=""
+                style={{height: '60%', width: '100%', objectFit: 'contain', paddingRight: 10, boderRadius: 10}}
+                onClick={() => setSrcImage(src)}
+            />
+        ))
+    }
     return (
         <>
             <Container sx={{ width: "100%", marginBottom: 5 }}>
@@ -138,13 +132,23 @@ const SingleProduct = () => {
 
                     </section>
                 ) : (
-                    <Box sx={{ width: "100%", display: 'flex', flexWrap: "wrap", alignItems: "center", justifyContent: "space-around" }}>
-                        <div className='detail-img-box'  >
-                            <img alt={product.name} src={product.image} className='detail-img' />
-                            <br />
-
+                    <Box sx={{
+                        width: "100%",
+                        display: 'flex',
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                        justifyContent: "space-around"
+                    }}>
+                        <div className="product-image">
+                            <div className='detail-img-box'>
+                                <img alt={product.name} src={srcImage || product.image[0]} className='detail-img'
+                                     width={'100%'} height={'100%'}/>
+                            </div>
+                            <div className='details-img-box'>
+                                <Carousel items={items} disableBtnControl={false}/>
+                            </div>
                         </div>
-                        <div >
+                        <div>
                             <Typography variant='h4'>{product.name}</Typography>
                         </div>
                     </Box>
@@ -160,7 +164,7 @@ const SingleProduct = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField label="Rating" name='rating' value={productInfo.rating} onChange={handleOnchange} variant="outlined" inputMode='numeric' fullWidth />
                         </Grid>
-                        <Grid item xs={12} sm={(productInfo.type === 'book' || productInfo.type === 'shoe') ? 6 : 12} >
+                        <Grid item xs={12} sm={6} >
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Product Category</InputLabel>
                                 <Select
@@ -177,34 +181,8 @@ const SingleProduct = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        {
-                            productInfo.type === 'book' &&
-                            <Grid item xs={12} sm={6}>
-                                <TextField label="Author" name='author' value={productInfo.author} onChange={handleOnchange} variant="outlined" fullWidth />
-                            </Grid>
-                        }
-                        {
-                            productInfo.type === 'shoe' &&
-                            <Grid item xs={12} sm={6}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Shoe Brand</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={productInfo.brand}
-                                        label="Shoe Brand"
-                                        name='brand'
-                                        required
-                                        onChange={handleOnchange}
-                                    >
-                                        {shoeBrand.map(item =>
-                                            <MenuItem value={item} key={item}>{item}</MenuItem>
-                                        )}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                        }
-                        <Grid item xs={12} >
+
+                        <Grid item xs={12}sm = {6} >
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Product Type</InputLabel>
                                 <Select
@@ -215,13 +193,13 @@ const SingleProduct = () => {
                                     name='type'
                                     onChange={handleOnchange}
                                 >
-                                    {typeDropdown.map(item =>
+                                    {productFilter.map(item =>
                                         <MenuItem value={item} key={item}>{item}</MenuItem>
                                     )}
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6} sx={{ margin: "10px auto" }}>
+                        <Grid item xs={12} sm={12} sx={{ margin: "10px auto" }}>
                             <TextField
                                 id="filled-textarea"
                                 value={productInfo.description} onChange={handleOnchange}
@@ -257,7 +235,7 @@ const SingleProduct = () => {
                     <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
                         <Button variant='contained' endIcon={<AiFillDelete />} color='error' onClick={deleteProduct}>Delete</Button>
                         <Button variant='contained' color='primary'
-                            onClick={() => setOpenAlert(false)} endIcon={<AiFillCloseCircle />}>Close</Button>
+                                onClick={() => setOpenAlert(false)} endIcon={<AiFillCloseCircle />}>Close</Button>
                     </DialogActions>
                 </Dialog>
             </Container >
